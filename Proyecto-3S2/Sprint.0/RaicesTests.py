@@ -1,6 +1,7 @@
 import math
 import unittest
 
+
 class RaicesTests(unittest.TestCase):
     def test_calcularRaizEntero(self):
         esperado = 8.0
@@ -20,12 +21,14 @@ class RaicesTests(unittest.TestCase):
     def test_calcularRaizNegativo(self):
         self.assertEqual(-999999.0, Raices().calcularRaiz(-6.0))
 
+
 class Raices:
     def calcularRaiz(self, num):
         if num < 0:
             return -999999.0
         else:
             return math.sqrt(num)
+
 
 if __name__ == '__main__':
     unittest.main()
