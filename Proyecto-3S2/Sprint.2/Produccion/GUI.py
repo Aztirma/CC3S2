@@ -20,3 +20,25 @@ class Ventana1:
     def singleplayer(self):
             # Oculta la ventana principal
             self.master.withdraw()
+
+    def multiplayer(self):
+        # Oculta la ventana principal
+        self.master.withdraw()
+
+        # Crea la segunda ventana utilizando Toplevel
+        ventana2 = tk.Toplevel()
+        Ventana2(ventana2, self.master, "Multiplayer")
+
+    def salir(self):
+        # Cierra la ventana principal
+        self.master.destroy()
+        
+# Crea la ventana principal
+ventana_principal = tk.Tk()
+ventana_principal.geometry("400x400")
+
+# Muestra la primera ventana
+ventana1 = Ventana1(ventana_principal)
+
+# Mantiene la ventana principal en bucle
+ventana_principal.mainloop()
