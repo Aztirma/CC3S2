@@ -77,6 +77,77 @@ class Ventana2:
         # Muestra la ventana principal
         self.ventana_principal.deiconify()
 
+class Ventana3:
+    def __init__(self, master, filas, columnas):
+        self.master = master
+        self.master.title("Tablero")
+
+        # Crea un frame para la izquierda de la ventana
+        self.frame_izquierdo = tk.Frame(self.master, padx=10, pady=10)
+        self.frame_izquierdo.pack(side="left", fill="y")
+
+        # Crea el título "Blue Player"
+        self.titulo_blue = tk.Label(self.frame_izquierdo, text="Blue Player", font=("Arial", 16))
+        self.titulo_blue.pack(pady=10)
+
+        # Crea los radio buttons para elegir entre S y O
+        self.blue_var = tk.StringVar()
+        self.blue_var.set("S")
+        self.blue_radio_s = tk.Radiobutton(self.frame_izquierdo, text="S", variable=self.blue_var, value="S")
+        self.blue_radio_s.pack()
+        self.blue_radio_o = tk.Radiobutton(self.frame_izquierdo, text="O", variable=self.blue_var, value="O")
+        self.blue_radio_o.pack()
+
+        # Crea un frame para el tablero
+        self.frame_tablero = tk.Frame(self.master, padx=10, pady=10)
+        self.frame_tablero.pack(side="left")
+
+        # Crea las casillas del tablero
+        self.casillas = []
+        for i in range(filas):
+            fila = []
+            for j in range(columnas):
+                casilla = tk.Label(self.frame_tablero, text="", font=("Arial", 32), width=4, height=2, relief="solid", borderwidth=2)
+                casilla.grid(row=i, column=j)
+                fila.append(casilla)
+            self.casillas.append(fila)
+
+        # Crea un frame para la derecha de la ventana
+        self.frame_derecho = tk.Frame(self.master, padx=10, pady=10)
+        self.frame_derecho.pack(side="right", fill="y")
+
+        # Crea el título "Red Player"
+        self.titulo_red = tk.Label(self.frame_derecho, text="Red Player", font=("Arial", 16))
+        self.titulo_red.pack(pady=10)
+
+        # Crea los radio buttons para elegir entre S y O
+        self.red_var = tk.StringVar()
+        self.red_var.set("S")
+        self.red_radio_s = tk.Radiobutton(self.frame_derecho, text="S", variable=self.red_var, value="S")
+        self.red_radio_s.pack()
+        self.red_radio_o = tk.Radiobutton(self.frame_derecho, text="O", variable=self.red_var, value="O")
+        self.red_radio_o.pack()
+
+        # Añade el botón para volver a la ventana anterior
+        self.boton_volver = tk.Button(self.frame_izquierdo, text="Volver", font=("Arial", 16), command=self.volver)
+        self.boton_volver.pack(side="bottom", pady=10, anchor="sw")
+
+        # Añade el botón para iniciar el juego
+        self.boton_iniciar = tk.Button(self.frame_derecho, text="Iniciar Juego", font=("Arial", 16), command=self.iniciar_juego)
+        self.boton_iniciar.pack(side="bottom", pady=10, anchor="s")
+
+
+    def volver(self):
+        # Cierra la ventana actual
+        self.master.destroy()
+
+        # Muestra la ventana anterior
+        self.master.master.deiconify()
+
+    def iniciar_juego(self):
+        # TODO: Lógica para iniciar el juego
+        pass
+
 # Crea la ventana principal
 ventana_principal = tk.Tk()
 ventana_principal.geometry("400x400")
