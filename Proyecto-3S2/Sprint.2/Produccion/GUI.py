@@ -1,5 +1,6 @@
 import tkinter as tk
 from Board import *
+from tkinter import messagebox
 
 class Ventana1:
 
@@ -85,8 +86,15 @@ class Ventana2:
     def comenzar(self):
         # Obtiene el tamaño del tablero ingresado por el usuario
         size = int(self.entry_size.get())
-        if size <= 2:
+        try:
+            size = int(size)
+            if size <= 2:
+                raise ValueError
+        except ValueError:
+            #Muestra una ventana emergente con el mensaje de error
+            messagebox.showerror("Error", "¡El tamaño del tablero debe ser un número entero mayor a 2!")
             return
+
         selected_option = int(self.gamemod_2.get())
         if selected_option == 1:
             gamemode_2 = 'Simple'
@@ -116,6 +124,9 @@ class Ventana3:
         self.create_left_frame("Blue Player", self.volver)
         self.create_board(filas, columnas)
         self.create_right_frame("Red Player", self.iniciar_juego)
+
+        self.create_turn_label()
+        self.update_turn_label()
 
     def create_left_frame(self, titulo,comando_volver):
 
@@ -175,9 +186,24 @@ class Ventana3:
         self.red_radio_o = tk.Radiobutton(self.right_frame, text="O", variable=self.red_var, value="O")
         self.red_radio_o.pack()
 
-        # Añade el botón para iniciar el juego
-        self.boton_iniciar = tk.Button(self.right_frame, text="Iniciar Juego", font=("Arial", 16), command=comando_iniciar_juego)
-        self.boton_iniciar.pack(side="bottom", pady=10, anchor="s")
+
+    def create_turn_label(self):
+        # Crea un frame contenedor en la esquina inferior derecha del tablero
+        self.turn_frame = tk.Frame(self.right_frame)
+        self.turn_frame.pack(side=tk.RIGHT, anchor=tk.SE)
+
+        # Crea el label del turno dentro del frame contenedor
+        self.turn_label = tk.Label(self.turn_frame, text="", font=("Arial", 16))
+        self.turn_label.pack(side=tk.BOTTOM, pady=10)
+
+    def update_turn_label(self):
+        # Actualiza el texto del label del turno con el jugador correspondiente
+        turn = self.master.board.turn
+        if turn == 'Blue':
+            player = "Blue Player"
+        else:
+            player = "Red Player"
+        self.turn_label.config(text=f"Turno de {player}")
 
     def add_letter(self, event):
         casilla = event.widget
@@ -189,6 +215,10 @@ class Ventana3:
             letter = self.red_var.get()
         if self.master.board.add_letter(letter, row, col):
             casilla.config(text=letter, fg="black")
+        else:
+            # La casilla ya está ocupada
+            tk.messagebox.showerror("Error", "Esta casilla ya esta ocupada")
+        self.update_turn_label()
 
     def volver(self):
         # Cierra la ventana actual
