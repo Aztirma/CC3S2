@@ -109,6 +109,8 @@ class Ventana3:
         self.create_board(filas, columnas)
         self.create_right_frame("Red Player", self.iniciar_juego)
 
+        self.s_agregada = False
+
 
     def create_left_frame(self, titulo,comando_volver):
 
@@ -145,6 +147,8 @@ class Ventana3:
             for j in range(columnas):
                 casilla = tk.Label(self.frame_board, text="", font=("Arial", 32), width=4, height=2, relief="solid", borderwidth=2)
                 casilla.grid(row=i, column=j)
+                # Añadir evento "click" a la casilla
+                casilla.bind("<Button-1>", self.add_letter)
                 fila.append(casilla)
             self.casillas.append(fila)
 
@@ -170,6 +174,11 @@ class Ventana3:
         self.boton_iniciar = tk.Button(self.right_frame, text="Iniciar Juego", font=("Arial", 16), command=comando_iniciar_juego)
         self.boton_iniciar.pack(side="bottom", pady=10, anchor="s")
 
+    def add_letter(self, event):
+        if not self.s_agregada:  # si la letra "S" no ha sido agregada al tablero
+            # Agrega la letra "S" de color azul en la casilla clickeada
+            event.widget.config(text="S", fg="blue")
+            self.s_agregada = True  # actualiza la variable para indicar que la letra "S" ha sido agregada
 
     def volver(self):
         # Cierra la ventana actual
