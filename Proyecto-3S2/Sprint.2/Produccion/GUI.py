@@ -34,22 +34,19 @@ class Ventana1:
         self.master.destroy()
 
 class Ventana2:
-    def __init__(self, master, ventana_principal, modo_juego):
+
+    def __init__(self, master, ventana_principal, gamemod_2):
         self.master = master
-        self.master.title(modo_juego)
+        self.master.title(gamemod_2)
         self.ventana_principal = ventana_principal
 
         # Añade widgets a la ventana
-        self.etiqueta = tk.Label(self.master, text=f"Modo de juego: {modo_juego}", font=("Arial", 20))
+        self.etiqueta = tk.Label(self.master, text=f"Modo de juego: {gamemod_2}", font=("Arial", 20))
         self.etiqueta.pack(pady=20)
 
-        # Añade el label y el entry para el tamaño de filas y columnas
-        self.frame_tamaño = tk.Frame(self.master)
-        self.frame_tamaño.pack(pady=10)
-        self.label_tamaño = tk.Label(self.frame_tamaño, text="Tamaño del tablero:", font=("Arial", 16))
-        self.label_tamaño.pack(side=tk.LEFT)
-        self.entry_tamaño = tk.Entry(self.frame_tamaño, font=("Arial", 16), width=5)
-        self.entry_tamaño.pack(side=tk.LEFT)
+        # Crea los widgets para elegir el tamaño del tablero y el modo de juego
+        self.board_size()
+        self.choose_gamemod_2()
 
         # Añade el botón para comenzar el juego
         self.boton_comenzar = tk.Button(self.master, text="Comenzar", font=("Arial", 16), command=self.comenzar)
@@ -59,9 +56,37 @@ class Ventana2:
         self.boton_volver = tk.Button(self.master, text="Volver", font=("Arial", 16), command=self.volver)
         self.boton_volver.pack(pady=10)
 
+    def board_size(self):
+        # Añade el label y el entry para el tamaño de filas y columnas
+        self.frame_size = tk.Frame(self.master)
+        self.frame_size.pack(pady=10)
+        self.label_size = tk.Label(self.frame_size, text="Tamaño del tablero:", font=("Arial", 16))
+        self.label_size.pack(side=tk.LEFT)
+        self.entry_size = tk.Entry(self.frame_size, font=("Arial", 16), width=5)
+        self.entry_size.pack(side=tk.LEFT)
+
+    def choose_gamemod_2(self):
+        #Añade el modo de juego
+        self.frame_gamemod_2 = tk.Frame(self.master)
+        self.frame_gamemod_2.pack(pady=10)
+        self.label_gamemod_2 = tk.Label(self.frame_gamemod_2, text="Modo de juego:", font=("Arial", 16))
+        self.label_gamemod_2.pack(side=tk.LEFT)
+        self.gamemod_2 = tk.IntVar(value=1)
+        self.simple_radius= tk.Radiobutton(self.frame_gamemod_2, text="Modo simple", font=("Arial", 14),
+                                           variable=self.gamemod_2, value=1)
+
+        self.simple_radius.pack(side=tk.LEFT)
+        self.full_radius = tk.Radiobutton(self.frame_gamemod_2, text="Modo completo", font=("Arial", 14),
+                                             variable=self.gamemod_2, value=2)
+        self.full_radius.pack(side=tk.LEFT)
+        self.simple_radius.select()  # Selecciona el botón de "Modo simple" por defecto
+
+        self.full_radius.pack(side=tk.LEFT)
+        self.simple_radius.select()
+
     def comenzar(self):
         # Obtiene el tamaño del tablero ingresado por el usuario
-        tamaño = int(self.entry_tamaño.get())
+        size = int(self.entry_size.get())
 
         # Cierra la ventana actual
         self.master.destroy()
