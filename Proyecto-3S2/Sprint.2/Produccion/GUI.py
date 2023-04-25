@@ -1,6 +1,7 @@
 import tkinter as tk
 
 class Ventana1:
+
     def __init__(self, master):
         self.master = master
         self.master.title("S O S")
@@ -72,12 +73,9 @@ class Ventana2:
         self.label_gamemod_2 = tk.Label(self.frame_gamemod_2, text="Modo de juego:", font=("Arial", 16))
         self.label_gamemod_2.pack(side=tk.LEFT)
         self.gamemod_2 = tk.IntVar(value=1)
-        self.simple_radius= tk.Radiobutton(self.frame_gamemod_2, text="Modo simple", font=("Arial", 14),
-                                           variable=self.gamemod_2, value=1)
-
+        self.simple_radius= tk.Radiobutton(self.frame_gamemod_2, text="Modo simple", font=("Arial", 14), variable=self.gamemod_2, value=1)
         self.simple_radius.pack(side=tk.LEFT)
-        self.full_radius = tk.Radiobutton(self.frame_gamemod_2, text="Modo completo", font=("Arial", 14),
-                                             variable=self.gamemod_2, value=2)
+        self.full_radius = tk.Radiobutton(self.frame_gamemod_2, text="Modo completo", font=("Arial", 14), variable=self.gamemod_2, value=2)
         self.full_radius.pack(side=tk.LEFT)
         self.simple_radius.select()  # Selecciona el botón de "Modo simple" por defecto
 
@@ -131,7 +129,7 @@ class Ventana3:
         self.blue_radio_o.pack()
 
         # Añade el botón para volver a la ventana anterior
-        self.boton_volver = tk.Button(self.left_frame, text="Volver", font=("Arial", 16), command=self.volver)
+        self.boton_volver = tk.Button(self.left_frame, text="Volver", font=("Arial", 16), command=comando_volver)
         self.boton_volver.pack(side="bottom", pady=10, anchor="sw")
 
     def create_board(self,filas, columnas):
@@ -169,7 +167,7 @@ class Ventana3:
         self.red_radio_o.pack()
 
         # Añade el botón para iniciar el juego
-        self.boton_iniciar = tk.Button(self.right_frame, text="Iniciar Juego", font=("Arial", 16), command=self.iniciar_juego)
+        self.boton_iniciar = tk.Button(self.right_frame, text="Iniciar Juego", font=("Arial", 16), command=comando_iniciar_juego)
         self.boton_iniciar.pack(side="bottom", pady=10, anchor="s")
 
 
