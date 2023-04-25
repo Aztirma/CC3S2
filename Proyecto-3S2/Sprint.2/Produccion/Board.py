@@ -1,5 +1,5 @@
 letters = [' ', 'S', 'O']
-gamemodes_1 = ['PVP', 'PVE']
+gamemodes_1 = ['Singleplayer', 'Multiplayer']
 gamemodes_2 = ['Simple', 'General']
 players = ['Blue', 'Red']
 sizes = range(3, 17)
@@ -26,6 +26,13 @@ class Board:
             self.cells = [[Cell() for i in range(size)] for j in range(size)]
         self.turn = players[0]
 
+    def start_game(self):
+        if self.gamemode_1 is not None and self.gamemode_2 is not None:
+            if self.size is None:
+                return "Board size invalid."
+            else:
+                return "Game started"
+
     def change_turn(self):
         self.turn = players[0] if self.turn == players[1] else players[1]
 
@@ -33,8 +40,8 @@ class Board:
         if self.cells[pos_x][pos_y].letter == ' ':
             self.cells[pos_x][pos_y].add_letter(letter)
             self.change_turn()
-        else:
-            print("Invalido")  # Hacerlo por GUI
+            return True
+        return False
 
     def print_console(self):
         for i in range(self.size):

@@ -4,7 +4,11 @@ from ..Produccion.Board import Board
 
 class TestBoard(unittest.TestCase):
     def setUp(self):
-        self.board = Board('PVP', 'General', 3)
+        self.board = Board('PVP', 'General', 8)
+        self.incorrect_board = Board('Simple', 'Multiplayer', 2)
+
+    def test_incorrect_board_size(self):
+        self.assertEqual(self.incorrect_board.start_game(), 'Board size invalid.')
 
     def test_change_turn(self):
         self.assertEqual(self.board.turn, 'Blue')

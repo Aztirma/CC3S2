@@ -1,4 +1,5 @@
 import tkinter as tk
+from Board import *
 
 class Ventana1:
 
@@ -19,8 +20,9 @@ class Ventana1:
         self.boton_salir.pack(pady=10)
 
     def singleplayer(self):
-            # Oculta la ventana principal
-            self.master.withdraw()
+        self.master.destroy()
+        # Oculta la ventana principal
+        # self.master.withdraw()
 
     def multiplayer(self):
         # Oculta la ventana principal
@@ -36,13 +38,14 @@ class Ventana1:
 
 class Ventana2:
 
-    def __init__(self, master, ventana_principal, gamemod_2):
+    def __init__(self, master, ventana_principal, gamemode_1):
         self.master = master
-        self.master.title(gamemod_2)
+        self.master.title(gamemode_1)
+        self.master.gamemode_1 = gamemode_1
         self.ventana_principal = ventana_principal
 
         # Añade widgets a la ventana
-        self.etiqueta = tk.Label(self.master, text=f"Modo de juego: {gamemod_2}", font=("Arial", 20))
+        self.etiqueta = tk.Label(self.master, text=f"Modo de juego: {gamemode_1}", font=("Arial", 20))
         self.etiqueta.pack(pady=20)
 
         # Crea los widgets para elegir el tamaño del tablero y el modo de juego
@@ -75,23 +78,27 @@ class Ventana2:
         self.gamemod_2 = tk.IntVar(value=1)
         self.simple_radius= tk.Radiobutton(self.frame_gamemod_2, text="Modo simple", font=("Arial", 14), variable=self.gamemod_2, value=1)
         self.simple_radius.pack(side=tk.LEFT)
-        self.full_radius = tk.Radiobutton(self.frame_gamemod_2, text="Modo completo", font=("Arial", 14), variable=self.gamemod_2, value=2)
+        self.full_radius = tk.Radiobutton(self.frame_gamemod_2, text="Modo general", font=("Arial", 14), variable=self.gamemod_2, value=2)
         self.full_radius.pack(side=tk.LEFT)
         self.simple_radius.select()  # Selecciona el botón de "Modo simple" por defecto
-
-        self.full_radius.pack(side=tk.LEFT)
-        self.simple_radius.select()
 
     def comenzar(self):
         # Obtiene el tamaño del tablero ingresado por el usuario
         size = int(self.entry_size.get())
+        if size <= 2:
+            return
+        selected_option = int(self.gamemod_2.get())
+        if selected_option == 1:
+            gamemode_2 = 'Simple'
+        elif selected_option == 2:
+            gamemode_2 = 'General'
 
         # Cierra la ventana actual
         self.master.destroy()
 
         # Crea la Ventana3 y la muestra
         ventana3 = tk.Toplevel(self.ventana_principal)
-        ventana3_gui = Ventana3(ventana3, size, size)
+        ventana3_gui = Ventana3(ventana3, size, size, self.master.gamemode_1, gamemode_2)
 
     def volver(self):
         # Cierra la ventana
@@ -101,16 +108,14 @@ class Ventana2:
         self.ventana_principal.deiconify()
 
 class Ventana3:
-    def __init__(self, master, filas, columnas):
+    def __init__(self, master, filas, columnas, gamemode_1, gamemode_2):
         self.master = master
         self.master.title("Tablero")
+        self.master.board = Board(gamemode_1, gamemode_2, filas)
 
         self.create_left_frame("Blue Player", self.volver)
         self.create_board(filas, columnas)
         self.create_right_frame("Red Player", self.iniciar_juego)
-
-        self.s_agregada = False
-
 
     def create_left_frame(self, titulo,comando_volver):
 
@@ -134,7 +139,7 @@ class Ventana3:
         self.boton_volver = tk.Button(self.left_frame, text="Volver", font=("Arial", 16), command=comando_volver)
         self.boton_volver.pack(side="bottom", pady=10, anchor="sw")
 
-    def create_board(self,filas, columnas):
+    def create_board(self, filas, columnas):
 
         # Crea un frame para el tablero
         self.frame_board = tk.Frame(self.master, padx=10, pady=10)
@@ -175,10 +180,15 @@ class Ventana3:
         self.boton_iniciar.pack(side="bottom", pady=10, anchor="s")
 
     def add_letter(self, event):
-        if not self.s_agregada:  # si la letra "S" no ha sido agregada al tablero
-            # Agrega la letra "S" de color azul en la casilla clickeada
-            event.widget.config(text="S", fg="blue")
-            self.s_agregada = True  # actualiza la variable para indicar que la letra "S" ha sido agregada
+        casilla = event.widget
+        row, col = casilla.grid_info()['row'] ,casilla.grid_info()['column']
+        turn = self.master.board.turn
+        if turn == 'Blue':
+            letter = self.blue_var.get()
+        else:
+            letter = self.red_var.get()
+        if self.master.board.add_letter(letter, row, col):
+            casilla.config(text=letter, fg="black")
 
     def volver(self):
         # Cierra la ventana actual
