@@ -118,7 +118,10 @@ class Ventana2:
 class Ventana3:
     def __init__(self, master, filas, columnas, gamemode_1, gamemode_2):
         self.master = master
-        self.master.title("Tablero")
+        if gamemode_2 == 'Simple':
+            self.master.title("Tablero modo simple")
+        elif gamemode_2 == 'General':
+            self.master.title("Tablero modo general")
         self.master.board = Board(gamemode_1, gamemode_2, filas)
 
         self.canvas_size = 400
