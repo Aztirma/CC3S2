@@ -240,11 +240,11 @@ class Ventana3:
                 y0 = row * self.cell_size
                 # dibujar la letra en la casilla correspondiente
                 self.canvas_board.create_text(x0 + self.cell_size / 2, y0 + self.cell_size / 2, text=letter, fill="black")
-                self.check_and_draw_SOS(letter, row, col)
+                createdSOS = self.check_and_draw_SOS(letter, row, col)
                 result = self.master.board.checkVictory()
                 if result is not None:
                     self.mostrarGanador()
-                else:
+                elif not createdSOS:
                     self.master.board.change_turn()
             else:
                 # La casilla ya está ocupada
@@ -264,6 +264,7 @@ class Ventana3:
                 x2, y2 = s[1][1] * self.cell_size + self.cell_size / 2, s[1][0] * self.cell_size + self.cell_size / 2
                 color = self.master.board.turn.lower()
                 self.canvas_board.create_line(x1, y1, x2, y2, fill=color)
+        return createdSOS
 
     def mostrarGanador(self):
         resultado = self.master.board.checkVictory()
