@@ -133,7 +133,7 @@ class Ventana3:
         self.create_turn_label()
         self.update_turn_label()
 
-    def create_left_frame(self, titulo,comando_volver):
+    def create_left_frame(self, titulo, comando_volver):
 
         # Crea un frame para la izquierda de la ventana
         self.left_frame = tk.Frame(self.master, padx=10, pady=10)
@@ -150,6 +150,13 @@ class Ventana3:
         self.blue_radio_s.pack()
         self.blue_radio_o = tk.Radiobutton(self.left_frame, text="O", variable=self.blue_var, value="O")
         self.blue_radio_o.pack()
+
+        # SOS creados
+        if self.master.board.gamemode_2 == 'General':
+            self.blue_sos_created_label = tk.Label(self.left_frame,
+                                                   text="SOS created: 0",
+                                                   font=("Arial", 16))
+            self.blue_sos_created_label.pack(pady=10)
 
         # Añade el botón para volver a la ventana anterior
         self.boton_volver = tk.Button(self.left_frame, text="Volver", font=("Arial", 16), command=comando_volver)
@@ -188,6 +195,13 @@ class Ventana3:
         self.red_radio_s.pack()
         self.red_radio_o = tk.Radiobutton(self.right_frame, text="O", variable=self.red_var, value="O")
         self.red_radio_o.pack()
+
+        # SOS creados
+        if self.master.board.gamemode_2 == 'General':
+            self.red_sos_created_label = tk.Label(self.right_frame,
+                                                  text="SOS created: 0",
+                                                  font=("Arial", 16))
+            self.red_sos_created_label.pack(pady=10)
 
 
     def create_turn_label(self):
@@ -236,6 +250,8 @@ class Ventana3:
 
         # actualizar etiqueta de turno
         self.update_turn_label()
+        self.blue_sos_created_label.config(text=f"SOS created: {self.master.board.SOS_created['Blue']}")
+        self.red_sos_created_label.config(text=f"SOS created: {self.master.board.SOS_created['Red']}")
 
     def check_and_draw_SOS(self, letter, x, y):
         createdSOS, SOS = self.master.board.check_SOS(letter, x, y)

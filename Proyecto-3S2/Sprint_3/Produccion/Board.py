@@ -63,7 +63,7 @@ class Board:
             for e1, e2 in zip(one_distance[::2], one_distance[1::2]):
                 if super_grid[e1[0]][e1[1]].letter == 'S' and super_grid[e2[0]][e2[1]].letter == 'S':
                     SOS.append([(e1[0] - 2, e1[1] - 2), (e2[0] - 2, e2[1] - 2)])
-        self.SOS_created[self.turn] + len(SOS)
+        self.SOS_created[self.turn] += len(SOS)
         return SOS != [], SOS
 
     def isBoardFull(self):
