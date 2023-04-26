@@ -151,22 +151,20 @@ class Ventana3:
         self.boton_volver.pack(side="bottom", pady=10, anchor="sw")
 
     def create_board(self, filas, columnas):
+        # Crea un canvas para el tablero
+        self.canvas_board = tk.Canvas(self.master, width=400, height=400)
+        self.canvas_board.pack(side="left")
 
-        # Crea un frame para el tablero
-        self.frame_board = tk.Frame(self.master, padx=10, pady=10)
-        self.frame_board.pack(side="left")
+        # Dibuja las líneas del tablero
+        for i in range(1, filas):
+            y = i * 100
+            self.canvas_board.create_line(0, y, 400, y)
+        for j in range(1, columnas):
+            x = j * 100
+            self.canvas_board.create_line(x, 0, x, 400)
 
-        # Crea las casillas del tablero
-        self.casillas = []
-        for i in range(filas):
-            fila = []
-            for j in range(columnas):
-                casilla = tk.Label(self.frame_board, text="", font=("Arial", 32), width=4, height=2, relief="solid", borderwidth=2)
-                casilla.grid(row=i, column=j)
-                # Añadir evento "click" a la casilla
-                casilla.bind("<Button-1>", self.add_letter)
-                fila.append(casilla)
-            self.casillas.append(fila)
+        # Añade evento "click" al canvas
+        self.canvas_board.bind("<Button-1>", self.add_letter)
 
     def create_right_frame(self, titulo, comando_iniciar_juego):
 
@@ -206,18 +204,29 @@ class Ventana3:
         self.turn_label.config(text=f"Turno de {player}")
 
     def add_letter(self, event):
-        casilla = event.widget
-        row, col = casilla.grid_info()['row'] ,casilla.grid_info()['column']
+        # calcular fila y columna a partir de las coordenadas del evento
+        row = int(event.y / 100)
+        col = int(event.x / 100)
+
+        # obtener letra y turno
         turn = self.master.board.turn
         if turn == 'Blue':
             letter = self.blue_var.get()
         else:
             letter = self.red_var.get()
+
+        # añadir letra a la casilla correspondiente
         if self.master.board.add_letter(letter, row, col):
-            casilla.config(text=letter, fg="black")
+            # obtener la coordenada (x, y) de la esquina superior izquierda de la casilla
+            x0 = col * 100
+            y0 = row * 100
+            # dibujar la letra en la casilla correspondiente
+            self.canvas_board.create_text(x0 + 50, y0 + 50, text=letter, fill="black")
         else:
             # La casilla ya está ocupada
-            tk.messagebox.showerror("Error", "Esta casilla ya esta ocupada")
+            tk.messagebox.showerror("Error", "Esta casilla ya está ocupada")
+
+        # actualizar etiqueta de turno
         self.update_turn_label()
 
     def volver(self):
