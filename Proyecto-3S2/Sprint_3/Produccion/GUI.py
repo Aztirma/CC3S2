@@ -121,6 +121,9 @@ class Ventana3:
         self.master.title("Tablero")
         self.master.board = Board(gamemode_1, gamemode_2, filas)
 
+        self.canvas_size = 400
+        self.cell_size = self.canvas_size / self.master.board.size
+
         self.create_left_frame("Blue Player", self.volver)
         self.create_board(filas, columnas)
         self.create_right_frame("Red Player", self.iniciar_juego)
@@ -152,15 +155,15 @@ class Ventana3:
 
     def create_board(self, filas, columnas):
         # Crea un canvas para el tablero
-        self.canvas_board = tk.Canvas(self.master, width=400, height=400)
+        self.canvas_board = tk.Canvas(self.master, width=self.canvas_size, height=self.canvas_size)
         self.canvas_board.pack(side="left")
 
         # Dibuja las líneas del tablero
         for i in range(1, filas):
-            y = i * 100
+            y = i * self.canvas_size / filas
             self.canvas_board.create_line(0, y, 400, y)
         for j in range(1, columnas):
-            x = j * 100
+            x = j * self.canvas_size / columnas
             self.canvas_board.create_line(x, 0, x, 400)
 
         # Añade evento "click" al canvas
@@ -205,29 +208,40 @@ class Ventana3:
 
     def add_letter(self, event):
         # calcular fila y columna a partir de las coordenadas del evento
-        row = int(event.y / 100)
-        col = int(event.x / 100)
+        row = int(event.y / self.cell_size)
+        col = int(event.x / self.cell_size)
 
         # obtener letra y turno
         turn = self.master.board.turn
-        if turn == 'Blue':
-            letter = self.blue_var.get()
-        else:
-            letter = self.red_var.get()
+        letter = self.blue_var.get() if turn == 'Blue' else self.red_var.get()
 
         # añadir letra a la casilla correspondiente
         if self.master.board.add_letter(letter, row, col):
             # obtener la coordenada (x, y) de la esquina superior izquierda de la casilla
-            x0 = col * 100
-            y0 = row * 100
+            x0 = col * self.cell_size
+            y0 = row * self.cell_size
             # dibujar la letra en la casilla correspondiente
-            self.canvas_board.create_text(x0 + 50, y0 + 50, text=letter, fill="black")
+            self.canvas_board.create_text(x0 + self.cell_size / 2, y0 + self.cell_size / 2, text=letter, fill="black")
+            self.check_and_draw_SOS(letter, row, col)
         else:
             # La casilla ya está ocupada
             tk.messagebox.showerror("Error", "Esta casilla ya está ocupada")
 
         # actualizar etiqueta de turno
         self.update_turn_label()
+
+    def check_and_draw_SOS(self, letter, x, y):
+        createdSOS, SOS = self.master.board.check_SOS(letter, x, y)
+        self.master.board.print_console()
+        if createdSOS:
+            for s in SOS:
+                x1, y1 = s[0][0] * self.cell_size + self.cell_size / 2, s[0][1] * self.cell_size + self.cell_size / 2
+                x2, y2 = s[1][0] * self.cell_size + self.cell_size / 2, s[1][1] * self.cell_size + self.cell_size / 2
+                color = self.master.board.turn.lower()
+                self.canvas_board.create_line(x1, y1, x2, y2, fill=color)
+            print('Se encontro un SOS')
+        else:
+            print("No se encontró ningún SOS")
 
     def volver(self):
         # Cierra la ventana actual

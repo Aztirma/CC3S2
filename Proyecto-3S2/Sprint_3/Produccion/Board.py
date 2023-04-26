@@ -1,4 +1,4 @@
-letters = [' ', 'S', 'O']
+letters = ['-', 'S', 'O']
 gamemodes_1 = ['Singleplayer', 'Multiplayer']
 gamemodes_2 = ['Simple', 'General']
 players = ['Blue', 'Red']
@@ -7,14 +7,14 @@ sizes = range(3, 17)
 
 class Cell:
     def __init__(self):
-        self.letter = ' '
+        self.letter = '-'
 
     def add_letter(self, letter):
         if letter in letters[1:]:
             self.letter = letter
 
     def is_empty(self):
-        return self.letter == ' '
+        return self.letter == '-'
 
 
 class Board:
@@ -55,13 +55,15 @@ class Board:
                         (x + 1, y - 1), (x - 1, y + 1), (x - 1, y), (x + 1, y)]
         if letter == 'S':
             for e, c in zip(two_distance, one_distance):
+                
                 if super_grid[e[0]][e[1]] == 'S' and super_grid[c[0]][c[1]] == 'O':
                     SOS.append([(e[0], e[1]), (x, y)])
         elif letter == 'O':
             for e1, e2 in zip(one_distance[::2], one_distance[1::2]):
                 if super_grid[e1[0]][e1[1]] == 'S' and super_grid[e2[0]][e2[1]] == 'S':
                     SOS.append([(e1[0], e1[1]), (e2[0], e2[1])])
-        return SOS == [], SOS
+        print(SOS != [])
+        return SOS != [], SOS
 
     def print_console(self):
         for i in range(self.size):
