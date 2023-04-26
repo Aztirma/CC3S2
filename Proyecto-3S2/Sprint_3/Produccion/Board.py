@@ -43,6 +43,26 @@ class Board:
             return True
         return False
 
+    def check_SOS(self, letter, x, y):
+        SOS = []
+        super_grid = [[Cell() for i in range(self.size + 4)] for j in range(self.size + 4)]
+        for i in range(self.size):
+            for j in range(self.size):
+                super_grid[i + 2][j + 2] = self.cells[i][j]
+        two_distance = [(x - 2, y - 2), (x + 2, y + 2), (x, y - 2), (x, y + 2),
+                        (x + 2, y - 2), (x - 2, y + 2), (x - 2, y), (x + 2, y)]
+        one_distance = [(x - 1, y - 1), (x + 1, y + 1), (x, y - 1), (x, y + 1),
+                        (x + 1, y - 1), (x - 1, y + 1), (x - 1, y), (x + 1, y)]
+        if letter == 'S':
+            for e, c in zip(two_distance, one_distance):
+                if super_grid[e[0]][e[1]] == 'S' and super_grid[c[0]][c[1]] == 'O':
+                    SOS.append([(e[0], e[1]), (x, y)])
+        elif letter == 'O':
+            for e1, e2 in zip(one_distance[::2], one_distance[1::2]):
+                if super_grid[e1[0]][e1[1]] == 'S' and super_grid[e2[0]][e2[1]] == 'S':
+                    SOS.append([(e1[0], e1[1]), (e2[0], e2[1])])
+        return SOS == [], SOS
+
     def print_console(self):
         for i in range(self.size):
             for j in range(self.size):
