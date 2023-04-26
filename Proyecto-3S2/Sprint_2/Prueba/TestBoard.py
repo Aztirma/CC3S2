@@ -17,6 +17,14 @@ class TestBoard(unittest.TestCase):
     def test_incorrect_board_size(self):
         self.assertEqual(self.incorrect_board.start_game(), 'Board size invalid.')
 
+    # AC 2.1. Elección del modo de juego simple
+    def test_simple_mode(self):
+        self.assertEqual(self.simple_board.gamemode_2, 'Simple')
+
+    # AC 2.2. Elección del modo de juego general
+    def test_general_mode(self):
+        self.assertEqual(self.general_board.gamemode_2, 'General')
+
     # AC 4.2. Realizar un movimiento en el modo simple
     def test_correct_add_letter_simple(self):
         self.simple_board.add_letter('S', 0, 0)
