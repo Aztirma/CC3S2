@@ -74,7 +74,7 @@ class Board:
         return True
 
     def checkVictory(self):
-        if gamemodes_2 == 'Simple':
+        if self.gamemode_2 == 'Simple':
             if self.SOS_created[players[0]] > 0:
                 return players[0]
             if self.SOS_created[players[1]] > 0:
@@ -82,7 +82,7 @@ class Board:
             if self.isBoardFull():
                 return 'Draw'
             return None
-        if gamemodes_2 == 'General':
+        if self.gamemode_2 == 'General':
             if self.isBoardFull():
                 if self.SOS_created[players[0]] > self.SOS_created[players[1]]:
                     return players[0]

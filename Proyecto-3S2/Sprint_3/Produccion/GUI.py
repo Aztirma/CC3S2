@@ -125,6 +125,7 @@ class Ventana3:
 
         self.canvas_size = 400
         self.cell_size = self.canvas_size / self.master.board.size
+        self.isGameOver = False
 
         self.create_left_frame("Blue Player", self.volver)
         self.create_board(filas, columnas)
@@ -223,35 +224,37 @@ class Ventana3:
         self.turn_label.config(text=f"Turno de {player}")
 
     def add_letter(self, event):
-        # calcular fila y columna a partir de las coordenadas del evento
-        row = int(event.y / self.cell_size)
-        col = int(event.x / self.cell_size)
+        if not self.isGameOver:
+            # calcular fila y columna a partir de las coordenadas del evento
+            row = int(event.y / self.cell_size)
+            col = int(event.x / self.cell_size)
 
-        # obtener letra y turno
-        turn = self.master.board.turn
-        letter = self.blue_var.get() if turn == 'Blue' else self.red_var.get()
+            # obtener letra y turno
+            turn = self.master.board.turn
+            letter = self.blue_var.get() if turn == 'Blue' else self.red_var.get()
 
-        # añadir letra a la casilla correspondiente
-        if self.master.board.add_letter(letter, row, col):
-            # obtener la coordenada (x, y) de la esquina superior izquierda de la casilla
-            x0 = col * self.cell_size
-            y0 = row * self.cell_size
-            # dibujar la letra en la casilla correspondiente
-            self.canvas_board.create_text(x0 + self.cell_size / 2, y0 + self.cell_size / 2, text=letter, fill="black")
-            self.check_and_draw_SOS(letter, row, col)
-            result = self.master.board.checkVictory()
-            if result is not None:
-                print(result)   # Cambiarlo por ventana en GUI
+            # añadir letra a la casilla correspondiente
+            if self.master.board.add_letter(letter, row, col):
+                # obtener la coordenada (x, y) de la esquina superior izquierda de la casilla
+                x0 = col * self.cell_size
+                y0 = row * self.cell_size
+                # dibujar la letra en la casilla correspondiente
+                self.canvas_board.create_text(x0 + self.cell_size / 2, y0 + self.cell_size / 2, text=letter, fill="black")
+                self.check_and_draw_SOS(letter, row, col)
+                result = self.master.board.checkVictory()
+                if result is not None:
+                    self.mostrarGanador()
+                else:
+                    self.master.board.change_turn()
             else:
-                self.master.board.change_turn()
-        else:
-            # La casilla ya está ocupada
-            tk.messagebox.showerror("Error", "Esta casilla ya está ocupada")
+                # La casilla ya está ocupada
+                tk.messagebox.showerror("Error", "Esta casilla ya está ocupada")
 
-        # actualizar etiqueta de turno
-        self.update_turn_label()
-        self.blue_sos_created_label.config(text=f"SOS created: {self.master.board.SOS_created['Blue']}")
-        self.red_sos_created_label.config(text=f"SOS created: {self.master.board.SOS_created['Red']}")
+            # actualizar etiqueta de turno
+            self.update_turn_label()
+            if self.master.board.gamemode_2 == 'General':
+                self.blue_sos_created_label.config(text=f"SOS created: {self.master.board.SOS_created['Blue']}")
+                self.red_sos_created_label.config(text=f"SOS created: {self.master.board.SOS_created['Red']}")
 
     def check_and_draw_SOS(self, letter, x, y):
         createdSOS, SOS = self.master.board.check_SOS(letter, x, y)
@@ -264,15 +267,16 @@ class Ventana3:
 
     def mostrarGanador(self):
         resultado = self.master.board.checkVictory()
-
-        if resultado == self.master.board.players[0]:
-            messagebox.showinfo("Ganador", "¡El jugador 1 ha ganado!")
-        elif resultado == self.master.board.players[1]:
-            messagebox.showinfo("Ganador", "¡El jugador 2 ha ganado!")
-        elif resultado == "Draw":
-            messagebox.showinfo("Empate", "¡El juego ha terminado en empate!")
-        else:
+        if resultado is None:
             messagebox.showinfo("Sin ganador", "El juego aún no ha terminado.")
+        else:
+            self.isGameOver = True
+            if resultado == 'Blue':
+                messagebox.showinfo("Ganador", "¡El jugador 1 ha ganado!")
+            elif resultado == 'Red':
+                messagebox.showinfo("Ganador", "¡El jugador 2 ha ganado!")
+            elif resultado == "Draw":
+                messagebox.showinfo("Empate", "¡El juego ha terminado en empate!")
 
     def volver(self):
         # Cierra la ventana actual
