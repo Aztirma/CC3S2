@@ -37,32 +37,39 @@ class Board:
         self.turn = players[0] if self.turn == players[1] else players[1]
 
     def add_letter(self, letter, pos_x, pos_y):
-        if self.cells[pos_x][pos_y].letter == ' ':
+        if self.cells[pos_x][pos_y].letter == letters[0]:
             self.cells[pos_x][pos_y].add_letter(letter)
-            self.change_turn()
             return True
         return False
 
     def check_SOS(self, letter, x, y):
         SOS = []
         super_grid = [[Cell() for i in range(self.size + 4)] for j in range(self.size + 4)]
+        print(letter, x, y)
         for i in range(self.size):
             for j in range(self.size):
-                super_grid[i + 2][j + 2] = self.cells[i][j]
+                super_grid[i + 2][j + 2].letter = self.cells[i][j].letter
+        x += 2
+        y += 2
         two_distance = [(x - 2, y - 2), (x + 2, y + 2), (x, y - 2), (x, y + 2),
                         (x + 2, y - 2), (x - 2, y + 2), (x - 2, y), (x + 2, y)]
         one_distance = [(x - 1, y - 1), (x + 1, y + 1), (x, y - 1), (x, y + 1),
                         (x + 1, y - 1), (x - 1, y + 1), (x - 1, y), (x + 1, y)]
         if letter == 'S':
             for e, c in zip(two_distance, one_distance):
-                
-                if super_grid[e[0]][e[1]] == 'S' and super_grid[c[0]][c[1]] == 'O':
-                    SOS.append([(e[0], e[1]), (x, y)])
+                if super_grid[e[0]][e[1]].letter == 'S' and super_grid[c[0]][c[1]].letter == 'O':
+                    SOS.append([(e[0] - 2, e[1] - 2), (x - 2, y - 2)])
         elif letter == 'O':
+            for i in range(3):
+                for j in range(3):
+                    print(super_grid[i + x - 1][j + y - 1].letter, ' ', end='')
+                print()
+            print('-------------')
             for e1, e2 in zip(one_distance[::2], one_distance[1::2]):
-                if super_grid[e1[0]][e1[1]] == 'S' and super_grid[e2[0]][e2[1]] == 'S':
-                    SOS.append([(e1[0], e1[1]), (e2[0], e2[1])])
-        print(SOS != [])
+                print(e1, e2)
+                print(super_grid[e1[0]][e1[1]].letter, super_grid[e2[0]][e2[1]].letter)
+                if super_grid[e1[0]][e1[1]].letter == 'S' and super_grid[e2[0]][e2[1]].letter == 'S':
+                    SOS.append([(e1[0] - 2, e1[1] - 2), (e2[0] - 2, e2[1] - 2)])
         return SOS != [], SOS
 
     def print_console(self):

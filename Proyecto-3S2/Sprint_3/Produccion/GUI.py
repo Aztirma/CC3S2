@@ -223,6 +223,7 @@ class Ventana3:
             # dibujar la letra en la casilla correspondiente
             self.canvas_board.create_text(x0 + self.cell_size / 2, y0 + self.cell_size / 2, text=letter, fill="black")
             self.check_and_draw_SOS(letter, row, col)
+            self.master.board.change_turn()
         else:
             # La casilla ya está ocupada
             tk.messagebox.showerror("Error", "Esta casilla ya está ocupada")
@@ -235,8 +236,8 @@ class Ventana3:
         self.master.board.print_console()
         if createdSOS:
             for s in SOS:
-                x1, y1 = s[0][0] * self.cell_size + self.cell_size / 2, s[0][1] * self.cell_size + self.cell_size / 2
-                x2, y2 = s[1][0] * self.cell_size + self.cell_size / 2, s[1][1] * self.cell_size + self.cell_size / 2
+                x1, y1 = s[0][1] * self.cell_size + self.cell_size / 2, s[0][0] * self.cell_size + self.cell_size / 2
+                x2, y2 = s[1][1] * self.cell_size + self.cell_size / 2, s[1][0] * self.cell_size + self.cell_size / 2
                 color = self.master.board.turn.lower()
                 self.canvas_board.create_line(x1, y1, x2, y2, fill=color)
             print('Se encontro un SOS')
