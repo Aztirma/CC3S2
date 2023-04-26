@@ -88,7 +88,7 @@ class Ventana2:
         size = int(self.entry_size.get())
         try:
             size = int(size)
-            if size <= 2:
+            if size <= 2 or size > 16:
                 raise ValueError
         except ValueError:
             #Muestra una ventana emergente con el mensaje de error
@@ -226,7 +226,7 @@ class Ventana3:
             # dibujar la letra en la casilla correspondiente
             self.canvas_board.create_text(x0 + self.cell_size / 2, y0 + self.cell_size / 2, text=letter, fill="black")
             self.check_and_draw_SOS(letter, row, col)
-            
+
             self.master.board.change_turn()
         else:
             # La casilla ya está ocupada
@@ -237,7 +237,6 @@ class Ventana3:
 
     def check_and_draw_SOS(self, letter, x, y):
         createdSOS, SOS = self.master.board.check_SOS(letter, x, y)
-        self.master.board.print_console()
         if createdSOS:
             for s in SOS:
                 x1, y1 = s[0][1] * self.cell_size + self.cell_size / 2, s[0][0] * self.cell_size + self.cell_size / 2

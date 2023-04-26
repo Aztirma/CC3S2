@@ -25,8 +25,7 @@ class Board:
         if size is not None:
             self.cells = [[Cell() for i in range(size)] for j in range(size)]
         self.turn = players[0]
-        if self.gamemode_2 == 'General':
-            self.SOS_created = {players[0]: 0, players[1]: 0}
+        self.SOS_created = {players[0]: 0, players[1]: 0}
 
     def start_game(self):
         if self.gamemode_1 is not None and self.gamemode_2 is not None:
