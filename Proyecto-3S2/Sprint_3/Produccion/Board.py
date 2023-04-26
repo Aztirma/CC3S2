@@ -1,4 +1,4 @@
-letters = ['-', 'S', 'O']
+letters = [' ', 'S', 'O']
 gamemodes_1 = ['Singleplayer', 'Multiplayer']
 gamemodes_2 = ['Simple', 'General']
 players = ['Blue', 'Red']
@@ -7,14 +7,14 @@ sizes = range(3, 17)
 
 class Cell:
     def __init__(self):
-        self.letter = '-'
+        self.letter = letters[0]
 
     def add_letter(self, letter):
         if letter in letters[1:]:
             self.letter = letter
 
     def is_empty(self):
-        return self.letter == '-'
+        return self.letter == letters[0]
 
 
 class Board:
@@ -25,6 +25,8 @@ class Board:
         if size is not None:
             self.cells = [[Cell() for i in range(size)] for j in range(size)]
         self.turn = players[0]
+        if self.gamemode_2 == 'General':
+            self.SOS_created = {players[0]: 0, players[1]: 0}
 
     def start_game(self):
         if self.gamemode_1 is not None and self.gamemode_2 is not None:
@@ -45,7 +47,6 @@ class Board:
     def check_SOS(self, letter, x, y):
         SOS = []
         super_grid = [[Cell() for i in range(self.size + 4)] for j in range(self.size + 4)]
-        print(letter, x, y)
         for i in range(self.size):
             for j in range(self.size):
                 super_grid[i + 2][j + 2].letter = self.cells[i][j].letter
@@ -60,20 +61,33 @@ class Board:
                 if super_grid[e[0]][e[1]].letter == 'S' and super_grid[c[0]][c[1]].letter == 'O':
                     SOS.append([(e[0] - 2, e[1] - 2), (x - 2, y - 2)])
         elif letter == 'O':
-            for i in range(3):
-                for j in range(3):
-                    print(super_grid[i + x - 1][j + y - 1].letter, ' ', end='')
-                print()
-            print('-------------')
             for e1, e2 in zip(one_distance[::2], one_distance[1::2]):
-                print(e1, e2)
-                print(super_grid[e1[0]][e1[1]].letter, super_grid[e2[0]][e2[1]].letter)
                 if super_grid[e1[0]][e1[1]].letter == 'S' and super_grid[e2[0]][e2[1]].letter == 'S':
                     SOS.append([(e1[0] - 2, e1[1] - 2), (e2[0] - 2, e2[1] - 2)])
+        self.SOS_created[self.turn] + len(SOS)
         return SOS != [], SOS
 
-    def print_console(self):
-        for i in range(self.size):
-            for j in range(self.size):
-                print(self.cells[i][j].letter, ' ', end='')
-            print()
+    def isBoardFull(self):
+        for row in self.cells:
+            for cell in row:
+                if cell.is_empty():
+                    return False
+        return True
+
+    def checkVictory(self):
+        if gamemodes_2 == 'Simple':
+            if self.SOS_created[players[0]] > 0:
+                return players[0]
+            if self.SOS_created[players[1]] > 0:
+                return players[1]
+            if self.isBoardFull():
+                return 'Draw'
+            return None
+        if gamemodes_2 == 'General':
+            if self.isBoardFull():
+                if self.SOS_created[players[0]] > self.SOS_created[players[1]]:
+                    return players[0]
+                if self.SOS_created[players[1]] > self.SOS_created[players[0]]:
+                    return players[1]
+                return 'Draw'
+            return None
