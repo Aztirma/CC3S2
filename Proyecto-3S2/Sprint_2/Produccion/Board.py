@@ -30,8 +30,8 @@ class Board:
         if self.gamemode_1 is not None and self.gamemode_2 is not None:
             if self.size is None:
                 return "Board size invalid."
-            else:
-                return "Game started"
+            return "Game started"
+        return "Gamemode invalid"
 
     def change_turn(self):
         self.turn = players[0] if self.turn == players[1] else players[1]
