@@ -85,9 +85,8 @@ class Ventana2:
 
     def comenzar(self):
         # Obtiene el tamaño del tablero ingresado por el usuario
-        size = int(self.entry_size.get())
         try:
-            size = int(size)
+            size = int(self.entry_size.get())
             if size <= 2 or size > 16:
                 raise ValueError
         except ValueError:
@@ -226,8 +225,11 @@ class Ventana3:
             # dibujar la letra en la casilla correspondiente
             self.canvas_board.create_text(x0 + self.cell_size / 2, y0 + self.cell_size / 2, text=letter, fill="black")
             self.check_and_draw_SOS(letter, row, col)
-
-            self.master.board.change_turn()
+            result = self.master.board.checkVictory()
+            if result is not None:
+                print(result)   # Cambiarlo por ventana en GUI
+            else:
+                self.master.board.change_turn()
         else:
             # La casilla ya está ocupada
             tk.messagebox.showerror("Error", "Esta casilla ya está ocupada")

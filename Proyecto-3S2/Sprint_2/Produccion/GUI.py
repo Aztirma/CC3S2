@@ -85,10 +85,9 @@ class Ventana2:
 
     def comenzar(self):
         # Obtiene el tamaño del tablero ingresado por el usuario
-        size = int(self.entry_size.get())
         try:
-            size = int(size)
-            if size <= 2:
+            size = int(self.entry_size.get())
+            if size <= 2 or size > 16:
                 raise ValueError
         except ValueError:
             #Muestra una ventana emergente con el mensaje de error
@@ -207,7 +206,7 @@ class Ventana3:
 
     def add_letter(self, event):
         casilla = event.widget
-        row, col = casilla.grid_info()['row'] ,casilla.grid_info()['column']
+        row, col = casilla.grid_info()['row'], casilla.grid_info()['column']
         turn = self.master.board.turn
         if turn == 'Blue':
             letter = self.blue_var.get()
