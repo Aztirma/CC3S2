@@ -262,6 +262,18 @@ class Ventana3:
                 color = self.master.board.turn.lower()
                 self.canvas_board.create_line(x1, y1, x2, y2, fill=color)
 
+    def mostrarGanador(self):
+        resultado = self.master.board.checkVictory()
+
+        if resultado == self.master.board.players[0]:
+            messagebox.showinfo("Ganador", "¡El jugador 1 ha ganado!")
+        elif resultado == self.master.board.players[1]:
+            messagebox.showinfo("Ganador", "¡El jugador 2 ha ganado!")
+        elif resultado == "Draw":
+            messagebox.showinfo("Empate", "¡El juego ha terminado en empate!")
+        else:
+            messagebox.showinfo("Sin ganador", "El juego aún no ha terminado.")
+
     def volver(self):
         # Cierra la ventana actual
         self.master.destroy()
