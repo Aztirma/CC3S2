@@ -7,18 +7,32 @@ class Ventana1:
     def __init__(self, master):
         self.master = master
         self.master.title("S O S")
+        self.master.configure(bg="#E6E6FA")
 
         # Añade widgets a la ventana
-        self.etiqueta = tk.Label(self.master, text="Bienvenido a S O S", font=("Arial", 20))
+        self.etiqueta = tk.Label(self.master, text="Bienvenido a S O S", bg="#E6E6FA", font=("Courier", 20))
         self.etiqueta.pack(pady=20)
-        self.boton_singleplayer = tk.Button(self.master, text="Single Player", font=("Arial", 16),
-                                            command=self.singleplayer)
-        self.boton_singleplayer.pack(pady=10)
-        self.boton_multiplayer = tk.Button(self.master, text="Multiplayer", font=("Arial", 16),
-                                           command=self.multiplayer)
-        self.boton_multiplayer.pack(pady=10)
-        self.boton_salir = tk.Button(self.master, text="Salir", font=("Arial", 16), command=self.salir)
-        self.boton_salir.pack(pady=10)
+
+        #Refac. botones
+        botones_config = [
+            {
+                "text": "P vs E",
+                "command": self.singleplayer
+            },
+            {
+                "text": "P vs P",
+                "command": self.multiplayer
+            },
+            {
+                "text": "Salir",
+                "command": self.salir
+            }
+        ]
+
+        for config in botones_config:
+            boton = tk.Button(self.master, text=config["text"], bg="#89AC76", font=("Courier", 16),
+                              command=config["command"], width=10)
+            boton.pack(pady=10)
 
     def singleplayer(self):
         self.master.destroy()
