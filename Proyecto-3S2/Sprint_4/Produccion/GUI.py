@@ -164,10 +164,35 @@ class Ventana3:
 
         self.create_left_frame("Blue Player", self.volver)
         self.create_board(filas, columnas)
-        self.create_right_frame("Red Player")
+
+        #Frame derecho, titulo
+        if gamemode_1 == 'P vs E':
+            titulo = "Computer"
+        else:
+            titulo = "Red Player"
+        self.create_right_frame(titulo)
 
         self.create_turn_label()
         self.update_turn_label()
+
+    def create_player_frame(self, frame, titulo, variable):
+        # Crea el título del jugador
+        titulo_label = tk.Label(frame, text=titulo, font=("Courier", 15), bg="#E6E6FA")
+        titulo_label.pack(pady=10)
+
+        # Crea los radio buttons para elegir entre S y O
+        variable.set("S")
+        radio_s = tk.Radiobutton(frame, text="S", variable=variable, value="S", bg="#E6E6FA")
+        radio_s.pack()
+        radio_o = tk.Radiobutton(frame, text="O", variable=variable, value="O", bg="#E6E6FA")
+        radio_o.pack()
+
+        # SOS creados
+        if self.master.board.gamemode_2 == 'General':
+            sos_created_label = tk.Label(frame, text="SOS created: 0", font=("Courier", 15), bg="#E6E6FA")
+            sos_created_label.pack(pady=10)
+
+        return variable
 
     def create_left_frame(self, titulo, comando_volver):
 
@@ -175,24 +200,8 @@ class Ventana3:
         self.left_frame = tk.Frame(self.master, padx=10, pady=10,bg="#E6E6FA")
         self.left_frame.pack(side="left", fill="y")
 
-        # Crea el título "Blue Player"
-        self.titulo_blue = tk.Label(self.left_frame, text=titulo, font=("Courier", 14),bg="#E6E6FA")
-        self.titulo_blue.pack(pady=10)
-
-        # Crea los radio buttons para elegir entre S y O
         self.blue_var = tk.StringVar()
-        self.blue_var.set("S")
-        self.blue_radio_s = tk.Radiobutton(self.left_frame, text="S", variable=self.blue_var, value="S",bg="#E6E6FA")
-        self.blue_radio_s.pack()
-        self.blue_radio_o = tk.Radiobutton(self.left_frame, text="O", variable=self.blue_var, value="O",bg="#E6E6FA")
-        self.blue_radio_o.pack()
-
-        # SOS creados
-        if self.master.board.gamemode_2 == 'General':
-            self.blue_sos_created_label = tk.Label(self.left_frame,
-                                                   text="SOS created: 0",
-                                                   font=("Courier", 13),bg="#E6E6FA")
-            self.blue_sos_created_label.pack(pady=10)
+        self.create_player_frame(self.left_frame, titulo, self.blue_var)
 
         # Añade el botón para volver a la ventana anterior
         self.boton_volver = tk.Button(self.left_frame, text="Volver", font=("Courier", 14), bg="#89AC76", command=comando_volver)
@@ -215,30 +224,12 @@ class Ventana3:
         self.canvas_board.bind("<Button-1>", self.add_letter)
 
     def create_right_frame(self, titulo):
-
         # Crea un frame para la derecha de la ventana
         self.right_frame= tk.Frame(self.master, padx=10, pady=10,bg="#E6E6FA")
         self.right_frame.pack(side="right", fill="y")
 
-        # Crea el título "Red Player"
-        self.titulo_red = tk.Label(self.right_frame, text=titulo, font=("Courier", 14),bg="#E6E6FA")
-        self.titulo_red.pack(pady=10)
-
-        # Crea los radio buttons para elegir entre S y O
         self.red_var = tk.StringVar()
-        self.red_var.set("S")
-        self.red_radio_s = tk.Radiobutton(self.right_frame, text="S", variable=self.red_var, value="S",bg="#E6E6FA")
-        self.red_radio_s.pack()
-        self.red_radio_o = tk.Radiobutton(self.right_frame, text="O", variable=self.red_var, value="O",bg="#E6E6FA")
-        self.red_radio_o.pack()
-
-        # SOS creados
-        if self.master.board.gamemode_2 == 'General':
-            self.red_sos_created_label = tk.Label(self.right_frame,
-                                                  text="SOS created: 0",
-                                                  font=("Courier", 13),bg="#E6E6FA")
-            self.red_sos_created_label.pack(pady=10)
-
+        self.create_player_frame(self.right_frame, titulo, self.red_var)
 
     def create_turn_label(self):
         # Crea un frame contenedor en la esquina inferior derecha del tablero
