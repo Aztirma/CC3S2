@@ -156,6 +156,7 @@ class Ventana3:
         self.red_sos_created_label = None
         self.blue_sos_created_label = None
         self.master = master
+        self.gamemode_1=gamemode_1
         if gamemode_2 == 'Simple':
             self.master.title("Tablero modo simple")
         elif gamemode_2 == 'General':
@@ -244,12 +245,20 @@ class Ventana3:
 
     def update_turn_label(self):
         # Actualiza el texto del label del turno con el jugador correspondiente
+        gamemode_1 = self.gamemode_1
         turn = self.master.board.turn
-        if turn == 'Blue':
-            player = "Blue Player"
+        if gamemode_1 == 'P vs E':
+            if turn == 'Blue':
+                player = "Computer"
+            else:
+                player = "Red Player"
+            self.turn_label.config(text=f"Turno de {player}")
         else:
-            player = "Red Player"
-        self.turn_label.config(text=f"Turno de {player}")
+            if turn == 'Blue':
+                player = "Blue"
+            else:
+                player = "Red Player"
+            self.turn_label.config(text=f"Turno de {player}")
 
     def add_letter(self, event):
         if not self.isGameOver:
