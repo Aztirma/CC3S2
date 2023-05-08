@@ -151,10 +151,6 @@ class Ventana2:
 
 class Ventana3:
     def __init__(self, master, filas, columnas, gamemode_1, gamemode_2):
-        self.red_var = None
-        self.blue_var = None
-        self.red_sos_created_label = None
-        self.blue_sos_created_label = None
         self.master = master
         self.gamemode_1=gamemode_1
         if gamemode_2 == 'Simple':
@@ -180,7 +176,7 @@ class Ventana3:
         self.create_turn_label()
         self.update_turn_label()
 
-    def create_player_frame(self, frame, titulo, variable, label):
+    def create_player_frame(self, frame, titulo, variable):
         # Crea el título del jugador
         titulo_label = tk.Label(frame, text=titulo, font=("Courier", 15), bg="#E6E6FA")
         titulo_label.pack(pady=10)
@@ -194,17 +190,19 @@ class Ventana3:
 
         # SOS creados
         if self.master.board.gamemode_2 == 'General':
-            label = tk.Label(frame, text="SOS created: 0", font=("Courier", 15), bg="#E6E6FA")
-            label.pack(pady=10)
+            sos_created_label = tk.Label(frame, text="SOS created: 0", font=("Courier", 15), bg="#E6E6FA")
+            sos_created_label.pack(pady=10)
+
+        return variable
 
     def create_left_frame(self, titulo, comando_volver):
 
         # Crea un frame para la izquierda de la ventana
-        self.left_frame = tk.Frame(self.master, padx=10, pady=10, bg="#E6E6FA")
+        self.left_frame = tk.Frame(self.master, padx=10, pady=10,bg="#E6E6FA")
         self.left_frame.pack(side="left", fill="y")
 
         self.blue_var = tk.StringVar()
-        self.create_player_frame(self.left_frame, titulo, self.blue_var, self.blue_sos_created_label)
+        self.create_player_frame(self.left_frame, titulo, self.blue_var)
 
         # Añade el botón para volver a la ventana anterior
         self.boton_volver = tk.Button(self.left_frame, text="Volver", font=("Courier", 14), bg="#89AC76", command=comando_volver)
@@ -232,7 +230,7 @@ class Ventana3:
         self.right_frame.pack(side="right", fill="y")
 
         self.red_var = tk.StringVar()
-        self.create_player_frame(self.right_frame, titulo, self.red_var, self.red_sos_created_label)
+        self.create_player_frame(self.right_frame, titulo, self.red_var)
 
     def create_turn_label(self):
         # Crea un frame contenedor en la esquina inferior derecha del tablero
