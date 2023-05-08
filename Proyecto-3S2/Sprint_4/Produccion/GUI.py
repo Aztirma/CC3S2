@@ -24,6 +24,10 @@ class Ventana1:
                 "command": self.multiplayer
             },
             {
+                "text": "E vs E",
+                "command": self.computer
+            },
+            {
                 "text": "Salir",
                 "command": self.salir
             }
@@ -49,6 +53,14 @@ class Ventana1:
         # Crea la segunda ventana utilizando Toplevel
         ventana2 = tk.Toplevel()
         Ventana2(ventana2, self.master, "P vs P")
+
+    def computer(self):
+        # Oculta la ventana principal
+        self.master.withdraw()
+
+        # Crea la segunda ventana utilizando Toplevel
+        ventana2 = tk.Toplevel()
+        Ventana2(ventana2, self.master, "E vs E")
 
     def salir(self):
         # Cierra la ventana principal
@@ -196,6 +208,7 @@ class Ventana3:
         if self.master.board.gamemode_2 == 'General':
             label = tk.Label(frame, text="SOS created: 0", font=("Courier", 15), bg="#E6E6FA")
             label.pack(pady=10)
+            return label
 
     def create_left_frame(self, titulo, comando_volver):
 
@@ -204,7 +217,8 @@ class Ventana3:
         self.left_frame.pack(side="left", fill="y")
 
         self.blue_var = tk.StringVar()
-        self.create_player_frame(self.left_frame, titulo, self.blue_var, self.blue_sos_created_label)
+        self.blue_sos_created_label = self.create_player_frame(self.left_frame, titulo, self.blue_var,
+                                                               self.blue_sos_created_label)
 
         # Añade el botón para volver a la ventana anterior
         self.boton_volver = tk.Button(self.left_frame, text="Volver", font=("Courier", 14), bg="#89AC76", command=comando_volver)
@@ -232,7 +246,8 @@ class Ventana3:
         self.right_frame.pack(side="right", fill="y")
 
         self.red_var = tk.StringVar()
-        self.create_player_frame(self.right_frame, titulo, self.red_var, self.red_sos_created_label)
+        self.red_sos_created_label = self.create_player_frame(self.right_frame, titulo, self.red_var,
+                                                              self.red_sos_created_label)
 
     def create_turn_label(self):
         # Crea un frame contenedor en la esquina inferior derecha del tablero
@@ -310,9 +325,9 @@ class Ventana3:
         else:
             self.isGameOver = True
             if resultado == 'Blue':
-                messagebox.showinfo("Ganador", "¡El jugador 1 ha ganado!")
+                messagebox.showinfo("Ganador", "¡Blue Player ha ganado!")
             elif resultado == 'Red':
-                messagebox.showinfo("Ganador", "¡El jugador 2 ha ganado!")
+                messagebox.showinfo("Ganador", "¡Red Player ha ganado!")
             elif resultado == "Draw":
                 messagebox.showinfo("Empate", "¡El juego ha terminado en empate!")
 
