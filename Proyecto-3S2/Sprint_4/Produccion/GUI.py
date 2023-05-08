@@ -35,9 +35,12 @@ class Ventana1:
             boton.pack(pady=10)
 
     def singleplayer(self):
-        self.master.destroy()
         # Oculta la ventana principal
-        # self.master.withdraw()
+        self.master.withdraw()
+
+        # Crea la segunda ventana utilizando Toplevel
+        ventana2 = tk.Toplevel()
+        Ventana2(ventana2, self.master, "P vs E")
 
     def multiplayer(self):
         # Oculta la ventana principal
@@ -45,7 +48,7 @@ class Ventana1:
 
         # Crea la segunda ventana utilizando Toplevel
         ventana2 = tk.Toplevel()
-        Ventana2(ventana2, self.master, "Multiplayer")
+        Ventana2(ventana2, self.master, "P vs P")
 
     def salir(self):
         # Cierra la ventana principal
@@ -56,46 +59,61 @@ class Ventana2:
     def __init__(self, master, ventana_principal, gamemode_1):
         self.master = master
         self.master.title(gamemode_1)
+        self.master.configure(bg="#E6E6FA")
         self.master.gamemode_1 = gamemode_1
         self.ventana_principal = ventana_principal
 
         # Añade widgets a la ventana
-        self.etiqueta = tk.Label(self.master, text=f"Modo de juego: {gamemode_1}", font=("Arial", 20))
-        self.etiqueta.pack(pady=20)
+        self.etiqueta = tk.Label(self.master, text=f" {gamemode_1}", font=("Courier", 18), bg="#E6E6FA")
+        self.etiqueta.pack(pady=12)
 
         # Crea los widgets para elegir el tamaño del tablero y el modo de juego
         self.board_size()
         self.choose_gamemod_2()
 
-        # Añade el botón para comenzar el juego
-        self.boton_comenzar = tk.Button(self.master, text="Comenzar", font=("Arial", 16), command=self.comenzar)
-        self.boton_comenzar.pack(pady=10)
+        #botones
+        botones_config_2 = [
+            {
+                "text": "Comenzar",
+                "command": self.comenzar
+            },
+            {
+                "text": "Volver",
+                "command": self.volver
+            }
+        ]
 
-        # Añade el botón para volver a la ventana anterior
-        self.boton_volver = tk.Button(self.master, text="Volver", font=("Arial", 16), command=self.volver)
-        self.boton_volver.pack(pady=10)
+        for config in botones_config_2:
+            boton = tk.Button(self.master, text=config["text"], font=("Courier", 15), bg="#89AC76",
+                              command=config["command"], width=10)
+            boton.pack(pady=10)
 
     def board_size(self):
-        # Añade el label y el entry para el tamaño de filas y columnas
-        self.frame_size = tk.Frame(self.master)
-        self.frame_size.pack(pady=10)
-        self.label_size = tk.Label(self.frame_size, text="Tamaño del tablero:", font=("Arial", 16))
-        self.label_size.pack(side=tk.LEFT)
-        self.entry_size = tk.Entry(self.frame_size, font=("Arial", 16), width=5)
+        # Crea el frame para el tamaño del tablero
+        self.frame_size = tk.Frame(self.master, pady=10,  bg="#E6E6FA")
+        self.frame_size.pack()
+
+        # Crea el label y la entrada para el tamaño del tablero
+        tk.Label(self.frame_size, text="Tamaño del tablero:", font=("Courier", 15), bg="#E6E6FA").pack(side=tk.LEFT)
+        self.entry_size = tk.Entry(self.frame_size, font=("Courier", 15), width=5)
         self.entry_size.pack(side=tk.LEFT)
 
     def choose_gamemod_2(self):
-        #Añade el modo de juego
-        self.frame_gamemod_2 = tk.Frame(self.master)
-        self.frame_gamemod_2.pack(pady=10)
-        self.label_gamemod_2 = tk.Label(self.frame_gamemod_2, text="Modo de juego:", font=("Arial", 16))
-        self.label_gamemod_2.pack(side=tk.LEFT)
-        self.gamemod_2 = tk.IntVar(value=1)
-        self.simple_radius= tk.Radiobutton(self.frame_gamemod_2, text="Modo simple", font=("Arial", 14), variable=self.gamemod_2, value=1)
-        self.simple_radius.pack(side=tk.LEFT)
-        self.full_radius = tk.Radiobutton(self.frame_gamemod_2, text="Modo general", font=("Arial", 14), variable=self.gamemod_2, value=2)
-        self.full_radius.pack(side=tk.LEFT)
-        self.simple_radius.select()  # Selecciona el botón de "Modo simple" por defecto
+        # Crea el frame para el modo de juego
+        self.frame_gamemod_2 = tk.Frame(self.master, bg="#E6E6FA", pady=10)
+        self.frame_gamemod_2.pack()
+
+        # Crea el label para el modo de juego
+        tk.Label(self.frame_gamemod_2, text="Modo de juego:", font=("Courier", 14), bg="#E6E6FA").pack(side=tk.LEFT)
+
+        # Crea las variables para el modo de juego
+        self.gamemod_2 = tk.IntVar(value=0)
+
+        # Crea los botones de radio para el modo de juego
+        tk.Radiobutton(self.frame_gamemod_2, text="Modo simple", font=("Courier", 13), bg="#E6E6FA",
+                       variable=self.gamemod_2, value=1).pack(side=tk.LEFT)
+        tk.Radiobutton(self.frame_gamemod_2, text="Modo general", font=("Courier", 13), bg="#E6E6FA",
+                       variable=self.gamemod_2, value=2).pack(side=tk.LEFT)
 
     def comenzar(self):
         # Obtiene el tamaño del tablero ingresado por el usuario
@@ -113,6 +131,9 @@ class Ventana2:
             gamemode_2 = 'Simple'
         elif selected_option == 2:
             gamemode_2 = 'General'
+        else:
+            messagebox.showinfo("Advertencia", "Por favor, elige un modo de juego.")
+            return
 
         # Cierra la ventana actual
         self.master.destroy()
@@ -143,43 +164,52 @@ class Ventana3:
 
         self.create_left_frame("Blue Player", self.volver)
         self.create_board(filas, columnas)
-        self.create_right_frame("Red Player", self.iniciar_juego)
+
+        #Frame derecho, titulo
+        if gamemode_1 == 'P vs E':
+            titulo = "Computer"
+        else:
+            titulo = "Red Player"
+        self.create_right_frame(titulo)
 
         self.create_turn_label()
         self.update_turn_label()
 
-    def create_left_frame(self, titulo, comando_volver):
-
-        # Crea un frame para la izquierda de la ventana
-        self.left_frame = tk.Frame(self.master, padx=10, pady=10)
-        self.left_frame.pack(side="left", fill="y")
-
-        # Crea el título "Blue Player"
-        self.titulo_blue = tk.Label(self.left_frame, text=titulo, font=("Arial", 16))
-        self.titulo_blue.pack(pady=10)
+    def create_player_frame(self, frame, titulo, variable):
+        # Crea el título del jugador
+        titulo_label = tk.Label(frame, text=titulo, font=("Courier", 15), bg="#E6E6FA")
+        titulo_label.pack(pady=10)
 
         # Crea los radio buttons para elegir entre S y O
-        self.blue_var = tk.StringVar()
-        self.blue_var.set("S")
-        self.blue_radio_s = tk.Radiobutton(self.left_frame, text="S", variable=self.blue_var, value="S")
-        self.blue_radio_s.pack()
-        self.blue_radio_o = tk.Radiobutton(self.left_frame, text="O", variable=self.blue_var, value="O")
-        self.blue_radio_o.pack()
+        variable.set("S")
+        radio_s = tk.Radiobutton(frame, text="S", variable=variable, value="S", bg="#E6E6FA")
+        radio_s.pack()
+        radio_o = tk.Radiobutton(frame, text="O", variable=variable, value="O", bg="#E6E6FA")
+        radio_o.pack()
 
         # SOS creados
         if self.master.board.gamemode_2 == 'General':
-            self.blue_sos_created_label = tk.Label(self.left_frame,
-                                                   text="SOS created: 0",
-                                                   font=("Arial", 16))
-            self.blue_sos_created_label.pack(pady=10)
+            sos_created_label = tk.Label(frame, text="SOS created: 0", font=("Courier", 15), bg="#E6E6FA")
+            sos_created_label.pack(pady=10)
+
+        return variable
+
+    def create_left_frame(self, titulo, comando_volver):
+
+        # Crea un frame para la izquierda de la ventana
+        self.left_frame = tk.Frame(self.master, padx=10, pady=10,bg="#E6E6FA")
+        self.left_frame.pack(side="left", fill="y")
+
+        self.blue_var = tk.StringVar()
+        self.create_player_frame(self.left_frame, titulo, self.blue_var)
 
         # Añade el botón para volver a la ventana anterior
-        self.boton_volver = tk.Button(self.left_frame, text="Volver", font=("Arial", 16), command=comando_volver)
+        self.boton_volver = tk.Button(self.left_frame, text="Volver", font=("Courier", 14), bg="#89AC76", command=comando_volver)
         self.boton_volver.pack(side="bottom", pady=10, anchor="sw")
 
     def create_board(self, filas, columnas):
         # Crea un canvas para el tablero
-        self.canvas_board = tk.Canvas(self.master, width=self.canvas_size, height=self.canvas_size)
+        self.canvas_board = tk.Canvas(self.master, width=self.canvas_size, height=self.canvas_size,bg="#E6E6FA")
         self.canvas_board.pack(side="left")
 
         # Dibuja las líneas del tablero
@@ -193,39 +223,21 @@ class Ventana3:
         # Añade evento "click" al canvas
         self.canvas_board.bind("<Button-1>", self.add_letter)
 
-    def create_right_frame(self, titulo, comando_iniciar_juego):
-
+    def create_right_frame(self, titulo):
         # Crea un frame para la derecha de la ventana
-        self.right_frame= tk.Frame(self.master, padx=10, pady=10)
+        self.right_frame= tk.Frame(self.master, padx=10, pady=10,bg="#E6E6FA")
         self.right_frame.pack(side="right", fill="y")
 
-        # Crea el título "Red Player"
-        self.titulo_red = tk.Label(self.right_frame, text=titulo, font=("Arial", 16))
-        self.titulo_red.pack(pady=10)
-
-        # Crea los radio buttons para elegir entre S y O
         self.red_var = tk.StringVar()
-        self.red_var.set("S")
-        self.red_radio_s = tk.Radiobutton(self.right_frame, text="S", variable=self.red_var, value="S")
-        self.red_radio_s.pack()
-        self.red_radio_o = tk.Radiobutton(self.right_frame, text="O", variable=self.red_var, value="O")
-        self.red_radio_o.pack()
-
-        # SOS creados
-        if self.master.board.gamemode_2 == 'General':
-            self.red_sos_created_label = tk.Label(self.right_frame,
-                                                  text="SOS created: 0",
-                                                  font=("Arial", 16))
-            self.red_sos_created_label.pack(pady=10)
-
+        self.create_player_frame(self.right_frame, titulo, self.red_var)
 
     def create_turn_label(self):
         # Crea un frame contenedor en la esquina inferior derecha del tablero
-        self.turn_frame = tk.Frame(self.right_frame)
+        self.turn_frame = tk.Frame(self.right_frame,bg="#89AC76")
         self.turn_frame.pack(side=tk.RIGHT, anchor=tk.SE)
 
         # Crea el label del turno dentro del frame contenedor
-        self.turn_label = tk.Label(self.turn_frame, text="", font=("Arial", 16))
+        self.turn_label = tk.Label(self.turn_frame, text="", font=("Courier", 12), bg="#89AC76")
         self.turn_label.pack(side=tk.BOTTOM, pady=10)
 
     def update_turn_label(self):
