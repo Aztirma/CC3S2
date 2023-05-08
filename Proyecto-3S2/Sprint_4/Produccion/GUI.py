@@ -164,7 +164,7 @@ class Ventana3:
 
         self.create_left_frame("Blue Player", self.volver)
         self.create_board(filas, columnas)
-        self.create_right_frame("Red Player", self.iniciar_juego)
+        self.create_right_frame("Red Player")
 
         self.create_turn_label()
         self.update_turn_label()
@@ -172,35 +172,35 @@ class Ventana3:
     def create_left_frame(self, titulo, comando_volver):
 
         # Crea un frame para la izquierda de la ventana
-        self.left_frame = tk.Frame(self.master, padx=10, pady=10)
+        self.left_frame = tk.Frame(self.master, padx=10, pady=10,bg="#E6E6FA")
         self.left_frame.pack(side="left", fill="y")
 
         # Crea el título "Blue Player"
-        self.titulo_blue = tk.Label(self.left_frame, text=titulo, font=("Arial", 16))
+        self.titulo_blue = tk.Label(self.left_frame, text=titulo, font=("Courier", 14),bg="#E6E6FA")
         self.titulo_blue.pack(pady=10)
 
         # Crea los radio buttons para elegir entre S y O
         self.blue_var = tk.StringVar()
         self.blue_var.set("S")
-        self.blue_radio_s = tk.Radiobutton(self.left_frame, text="S", variable=self.blue_var, value="S")
+        self.blue_radio_s = tk.Radiobutton(self.left_frame, text="S", variable=self.blue_var, value="S",bg="#E6E6FA")
         self.blue_radio_s.pack()
-        self.blue_radio_o = tk.Radiobutton(self.left_frame, text="O", variable=self.blue_var, value="O")
+        self.blue_radio_o = tk.Radiobutton(self.left_frame, text="O", variable=self.blue_var, value="O",bg="#E6E6FA")
         self.blue_radio_o.pack()
 
         # SOS creados
         if self.master.board.gamemode_2 == 'General':
             self.blue_sos_created_label = tk.Label(self.left_frame,
                                                    text="SOS created: 0",
-                                                   font=("Arial", 16))
+                                                   font=("Courier", 13),bg="#E6E6FA")
             self.blue_sos_created_label.pack(pady=10)
 
         # Añade el botón para volver a la ventana anterior
-        self.boton_volver = tk.Button(self.left_frame, text="Volver", font=("Arial", 16), command=comando_volver)
+        self.boton_volver = tk.Button(self.left_frame, text="Volver", font=("Courier", 14), bg="#89AC76", command=comando_volver)
         self.boton_volver.pack(side="bottom", pady=10, anchor="sw")
 
     def create_board(self, filas, columnas):
         # Crea un canvas para el tablero
-        self.canvas_board = tk.Canvas(self.master, width=self.canvas_size, height=self.canvas_size)
+        self.canvas_board = tk.Canvas(self.master, width=self.canvas_size, height=self.canvas_size,bg="#E6E6FA")
         self.canvas_board.pack(side="left")
 
         # Dibuja las líneas del tablero
@@ -214,39 +214,39 @@ class Ventana3:
         # Añade evento "click" al canvas
         self.canvas_board.bind("<Button-1>", self.add_letter)
 
-    def create_right_frame(self, titulo, comando_iniciar_juego):
+    def create_right_frame(self, titulo):
 
         # Crea un frame para la derecha de la ventana
-        self.right_frame= tk.Frame(self.master, padx=10, pady=10)
+        self.right_frame= tk.Frame(self.master, padx=10, pady=10,bg="#E6E6FA")
         self.right_frame.pack(side="right", fill="y")
 
         # Crea el título "Red Player"
-        self.titulo_red = tk.Label(self.right_frame, text=titulo, font=("Arial", 16))
+        self.titulo_red = tk.Label(self.right_frame, text=titulo, font=("Courier", 14),bg="#E6E6FA")
         self.titulo_red.pack(pady=10)
 
         # Crea los radio buttons para elegir entre S y O
         self.red_var = tk.StringVar()
         self.red_var.set("S")
-        self.red_radio_s = tk.Radiobutton(self.right_frame, text="S", variable=self.red_var, value="S")
+        self.red_radio_s = tk.Radiobutton(self.right_frame, text="S", variable=self.red_var, value="S",bg="#E6E6FA")
         self.red_radio_s.pack()
-        self.red_radio_o = tk.Radiobutton(self.right_frame, text="O", variable=self.red_var, value="O")
+        self.red_radio_o = tk.Radiobutton(self.right_frame, text="O", variable=self.red_var, value="O",bg="#E6E6FA")
         self.red_radio_o.pack()
 
         # SOS creados
         if self.master.board.gamemode_2 == 'General':
             self.red_sos_created_label = tk.Label(self.right_frame,
                                                   text="SOS created: 0",
-                                                  font=("Arial", 16))
+                                                  font=("Courier", 13),bg="#E6E6FA")
             self.red_sos_created_label.pack(pady=10)
 
 
     def create_turn_label(self):
         # Crea un frame contenedor en la esquina inferior derecha del tablero
-        self.turn_frame = tk.Frame(self.right_frame)
+        self.turn_frame = tk.Frame(self.right_frame,bg="#89AC76")
         self.turn_frame.pack(side=tk.RIGHT, anchor=tk.SE)
 
         # Crea el label del turno dentro del frame contenedor
-        self.turn_label = tk.Label(self.turn_frame, text="", font=("Arial", 16))
+        self.turn_label = tk.Label(self.turn_frame, text="", font=("Courier", 12), bg="#89AC76")
         self.turn_label.pack(side=tk.BOTTOM, pady=10)
 
     def update_turn_label(self):
