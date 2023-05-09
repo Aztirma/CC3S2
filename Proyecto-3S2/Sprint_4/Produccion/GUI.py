@@ -179,15 +179,25 @@ class Ventana3:
         self.cell_size = self.canvas_size / self.master.board.size
         self.isGameOver = False
 
-        self.create_left_frame("Blue Player", self.volver)
+        # Frame izquierdo, titulo
+        if gamemode_1 == 'E vs E':
+            titulo = "Computer A"
+        else:
+            titulo = "Blue Player"
+        self.create_left_frame(titulo, self.volver)
+
+
         self.create_board(filas, columnas)
 
         #Frame derecho, titulo
         if gamemode_1 == 'P vs E':
-            titulo = "Computer"
+            titulo_1 = "Computer"
+        elif gamemode_1 == 'E vs E':
+            titulo_1 = "Computer B"
         else:
-            titulo = "Red Player"
-        self.create_right_frame(titulo)
+            titulo_1 = "Red Player"
+
+        self.create_right_frame(titulo_1)
 
         self.create_turn_label()
         self.update_turn_label()
@@ -204,11 +214,13 @@ class Ventana3:
         radio_o = tk.Radiobutton(frame, text="O", variable=variable, value="O", bg="#E6E6FA")
         radio_o.pack()
 
+
         # SOS creados
         if self.master.board.gamemode_2 == 'General':
             label = tk.Label(frame, text="SOS created: 0", font=("Courier", 15), bg="#E6E6FA")
             label.pack(pady=10)
             return label
+
 
     def create_left_frame(self, titulo, comando_volver):
 
@@ -221,13 +233,18 @@ class Ventana3:
                                                                self.blue_sos_created_label)
 
         # Añade el botón para volver a la ventana anterior
-        self.boton_volver = tk.Button(self.left_frame, text="Volver", font=("Courier", 14), bg="#89AC76", command=comando_volver)
+        self.boton_volver = tk.Button(self.left_frame, text="Volver", font=("Courier", 13), bg="#89AC76")
         self.boton_volver.pack(side="bottom", pady=10, anchor="sw")
 
     def create_board(self, filas, columnas):
-        # Crea un canvas para el tablero
-        self.canvas_board = tk.Canvas(self.master, width=self.canvas_size, height=self.canvas_size,bg="#E6E6FA")
-        self.canvas_board.pack(side="left")
+
+        # Crea un marco para contener el tablero
+        board_frame = tk.Frame(self.master, bg="#E6E6FA")
+        board_frame.pack(side="left", fill="both", expand=True)
+
+        # Crea un canvas para el tablero dentro del marco
+        self.canvas_board = tk.Canvas(board_frame, width=self.canvas_size, height=self.canvas_size, bg="#E6E6FA")
+        self.canvas_board.pack()
 
         # Dibuja las líneas del tablero
         for i in range(1, filas):
@@ -249,10 +266,13 @@ class Ventana3:
         self.red_sos_created_label = self.create_player_frame(self.right_frame, titulo, self.red_var,
                                                               self.red_sos_created_label)
 
+        self.boton_nuevo_juego = tk.Button(self.right_frame, text="Nuevo Juego", font=("Courier", 13), bg="#89AC76",)
+        self.boton_nuevo_juego.pack(side=tk.BOTTOM, pady=10)
+
     def create_turn_label(self):
         # Crea un frame contenedor en la esquina inferior derecha del tablero
         self.turn_frame = tk.Frame(self.right_frame,bg="#89AC76")
-        self.turn_frame.pack(side=tk.RIGHT, anchor=tk.SE)
+        self.turn_frame.pack(side=tk.RIGHT, anchor=tk.SE, padx=5, pady=10)
 
         # Crea el label del turno dentro del frame contenedor
         self.turn_label = tk.Label(self.turn_frame, text="", font=("Courier", 12), bg="#89AC76")
@@ -268,9 +288,15 @@ class Ventana3:
             else:
                 player = "Red Player"
             self.turn_label.config(text=f"Turno de {player}")
+        if gamemode_1 == 'E vs E':
+            if turn == 'Blue':
+                player = "Computer A"
+            else:
+                player = "Computer B"
+            self.turn_label.config(text=f"Turno de {player}")
         else:
             if turn == 'Blue':
-                player = "Blue"
+                player = "Blue Player"
             else:
                 player = "Red Player"
             self.turn_label.config(text=f"Turno de {player}")

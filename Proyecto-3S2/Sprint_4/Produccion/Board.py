@@ -1,5 +1,5 @@
 letters = [' ', 'S', 'O']
-gamemodes_1 = ['P vs E', 'P vs P']
+gamemodes_1 = ['P vs E', 'P vs P', 'E vs E']
 gamemodes_2 = ['Simple', 'General']
 players = ['Blue', 'Red']
 sizes = range(3, 17)
