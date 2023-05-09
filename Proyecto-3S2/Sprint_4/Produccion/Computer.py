@@ -1,7 +1,13 @@
 import random
+from Board import *
 
 
 class Computer:
+    def __init__(self, gamemode_1, gamemode_2, size):
+        self.gamemode_1 = gamemode_1
+        self.gamemode_2 = gamemode_2
+        self.size = size
+
     @staticmethod
     def get_empty_cells(cells):
         empty_cells = []
@@ -11,9 +17,8 @@ class Computer:
                     empty_cells.append((i, j))
         return empty_cells
 
-    @staticmethod
-    def play_turn(cells):
-        candidate_plays = Computer.check_possible_SOS(cells)
+    def play_turn(self, cells):
+        candidate_plays = self.check_possible_SOS(cells)
 
         if len(candidate_plays) > 0:
             return random.choice(candidate_plays)
@@ -24,13 +29,13 @@ class Computer:
             copy_cells = cells.copy()
             copy_cells[pos[0]][pos[1]].add_letter('S')
 
-            if len(Computer.check_possible_SOS(copy_cells)) == 0:
+            if len(self.check_possible_SOS(copy_cells)) == 0:
                 candidate_plays.append(('S', pos))
 
             copy_cells = cells.copy()
             copy_cells[pos[0]][pos[1]].add_letter('O')
 
-            if len(Computer.check_possible_SOS(copy_cells)) == 0:
+            if len(self.check_possible_SOS(copy_cells)) == 0:
                 candidate_plays.append(('O', pos))
 
         if len(candidate_plays) > 0:
@@ -42,6 +47,18 @@ class Computer:
 
         return random.choice(candidate_plays)
 
-    @staticmethod
-    def check_possible_SOS(cells):
-        return []
+    def check_possible_SOS(self, cells):
+        empty_cells = Computer.get_empty_cells(cells)
+
+        candidate_plays = []
+        for pos in empty_cells:
+            for letter in ['S', 'O']:
+                copy_cells = cells.copy()
+                copy_cells[pos[0]][pos[1]].add_letter(letter)
+                board = Board(self.gamemode_1, self.gamemode_2, self.size)
+                board.cells = copy_cells
+                createdSOS, _ = board.check_SOS(letter, pos[0], pos[1])
+                if createdSOS:
+                    candidate_plays.append((letter, pos))
+
+        return candidate_plays
