@@ -163,8 +163,8 @@ class Ventana2:
 
 class Ventana3:
     def __init__(self, master, filas, columnas, gamemode_1, gamemode_2):
-        self.red_var = None
-        self.blue_var = None
+        self.red_var = tk.IntVar(value=-1)
+        self.blue_var = tk.IntVar(value=-1)
         self.red_sos_created_label = None
         self.blue_sos_created_label = None
         self.master = master
@@ -214,6 +214,8 @@ class Ventana3:
         radio_o = tk.Radiobutton(frame, text="O", variable=variable, value="O", bg="#E6E6FA")
         radio_o.pack()
 
+        # Deseleccionar los botones de radio
+        variable.set(-1)
 
         # SOS creados
         if self.master.board.gamemode_2 == 'General':
@@ -237,13 +239,12 @@ class Ventana3:
         self.boton_volver.pack(side="bottom", pady=10, anchor="sw")
 
     def create_board(self, filas, columnas):
-
         # Crea un marco para contener el tablero
-        board_frame = tk.Frame(self.master, bg="#E6E6FA")
-        board_frame.pack(side="left", fill="both", expand=True)
+        self.board_frame = tk.Frame(self.master, bg="#E6E6FA")
+        self.board_frame.pack(side="left", fill="both", expand=True)
 
         # Crea un canvas para el tablero dentro del marco
-        self.canvas_board = tk.Canvas(board_frame, width=self.canvas_size, height=self.canvas_size, bg="#E6E6FA")
+        self.canvas_board = tk.Canvas(self.board_frame, width=self.canvas_size, height=self.canvas_size, bg="#E6E6FA")
         self.canvas_board.pack()
 
         # Dibuja las líneas del tablero
@@ -270,13 +271,13 @@ class Ventana3:
         self.boton_nuevo_juego.pack(side=tk.BOTTOM, pady=10)
 
     def create_turn_label(self):
-        # Crea un frame contenedor en la esquina inferior derecha del tablero
-        self.turn_frame = tk.Frame(self.right_frame,bg="#89AC76")
-        self.turn_frame.pack(side=tk.RIGHT, anchor=tk.SE, padx=5, pady=10)
+        # Crea un frame contenedor en el mismo marco que el tablero
+        self.turn_frame = tk.Frame(self.board_frame, bg="#89AC76")
+        self.turn_frame.pack(side=tk.BOTTOM, pady=10)
 
         # Crea el label del turno dentro del frame contenedor
         self.turn_label = tk.Label(self.turn_frame, text="", font=("Courier", 12), bg="#89AC76")
-        self.turn_label.pack(side=tk.BOTTOM, pady=10)
+        self.turn_label.grid(row=1, column=0, pady=10)
 
     def update_turn_label(self):
         # Actualiza el texto del label del turno con el jugador correspondiente
@@ -309,30 +310,35 @@ class Ventana3:
 
             # obtener letra y turno
             turn = self.master.board.turn
-            letter = self.blue_var.get() if turn == 'Blue' else self.red_var.get()
+            letter = None
+            if turn == 'Blue' and self.blue_var.get() != "-1":
+                letter = self.blue_var.get()
+            elif turn == 'Red' and self.red_var.get() != "-1":
+                letter = self.red_var.get()
 
-            # añadir letra a la casilla correspondiente
-            if self.master.board.add_letter(letter, row, col):
-                # obtener la coordenada (x, y) de la esquina superior izquierda de la casilla
-                x0 = col * self.cell_size
-                y0 = row * self.cell_size
-                # dibujar la letra en la casilla correspondiente
-                self.canvas_board.create_text(x0 + self.cell_size / 2, y0 + self.cell_size / 2, text=letter, fill="black")
-                createdSOS = self.check_and_draw_SOS(letter, row, col)
-                result = self.master.board.checkVictory()
-                if result is not None:
-                    self.mostrarGanador()
-                elif not createdSOS:
-                    self.master.board.change_turn()
-            else:
-                # La casilla ya está ocupada
-                tk.messagebox.showerror("Error", "Esta casilla ya está ocupada")
+            if letter is not None:
+                # añadir letra a la casilla correspondiente
+                if self.master.board.add_letter(letter, row, col):
+                    # obtener la coordenada (x, y) de la esquina superior izquierda de la casilla
+                    x0 = col * self.cell_size
+                    y0 = row * self.cell_size
+                    # dibujar la letra en la casilla correspondiente
+                    self.canvas_board.create_text(x0 + self.cell_size / 2, y0 + self.cell_size / 2, text=letter, fill="black")
+                    createdSOS = self.check_and_draw_SOS(letter, row, col)
+                    result = self.master.board.checkVictory()
+                    if result is not None:
+                        self.mostrarGanador()
+                    elif not createdSOS:
+                        self.master.board.change_turn()
+                else:
+                    # La casilla ya está ocupada
+                    tk.messagebox.showerror("Error", "Esta casilla ya está ocupada")
 
-            # actualizar etiqueta de turno
-            self.update_turn_label()
-            if self.master.board.gamemode_2 == 'General':
-                self.blue_sos_created_label.config(text=f"SOS created: {self.master.board.SOS_created['Blue']}")
-                self.red_sos_created_label.config(text=f"SOS created: {self.master.board.SOS_created['Red']}")
+                # actualizar etiqueta de turno
+                self.update_turn_label()
+                if self.master.board.gamemode_2 == 'General':
+                    self.blue_sos_created_label.config(text=f"SOS created: {self.master.board.SOS_created['Blue']}")
+                    self.red_sos_created_label.config(text=f"SOS created: {self.master.board.SOS_created['Red']}")
 
     def check_and_draw_SOS(self, letter, x, y):
         createdSOS, SOS = self.master.board.check_SOS(letter, x, y)
