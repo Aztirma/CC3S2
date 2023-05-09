@@ -8,11 +8,9 @@ class Ventana1:
         self.master = master
         self.master.title("S O S")
         self.master.configure(bg="#E6E6FA")
-
         # Añade widgets a la ventana
         self.etiqueta = tk.Label(self.master, text="Bienvenido a S O S", bg="#E6E6FA", font=("Courier", 20))
         self.etiqueta.pack(pady=20)
-
         #Refac. botones
         botones_config = [
             {
@@ -41,7 +39,6 @@ class Ventana1:
     def singleplayer(self):
         # Oculta la ventana principal
         self.master.withdraw()
-
         # Crea la segunda ventana utilizando Toplevel
         ventana2 = tk.Toplevel()
         Ventana2(ventana2, self.master, "P vs E")
@@ -49,7 +46,6 @@ class Ventana1:
     def multiplayer(self):
         # Oculta la ventana principal
         self.master.withdraw()
-
         # Crea la segunda ventana utilizando Toplevel
         ventana2 = tk.Toplevel()
         Ventana2(ventana2, self.master, "P vs P")
@@ -57,7 +53,6 @@ class Ventana1:
     def computer(self):
         # Oculta la ventana principal
         self.master.withdraw()
-
         # Crea la segunda ventana utilizando Toplevel
         ventana2 = tk.Toplevel()
         Ventana2(ventana2, self.master, "PC vs PC")
@@ -74,15 +69,12 @@ class Ventana2:
         self.master.configure(bg="#E6E6FA")
         self.master.gamemode_1 = gamemode_1
         self.ventana_principal = ventana_principal
-
         # Añade widgets a la ventana
         self.etiqueta = tk.Label(self.master, text=f" {gamemode_1}", font=("Courier", 18), bg="#E6E6FA")
         self.etiqueta.pack(pady=12)
-
         # Crea los widgets para elegir el tamaño del tablero y el modo de juego
         self.board_size()
         self.choose_gamemod_2()
-
         #botones
         botones_config_2 = [
             {
@@ -94,7 +86,6 @@ class Ventana2:
                 "command": self.volver
             }
         ]
-
         for config in botones_config_2:
             boton = tk.Button(self.master, text=config["text"], font=("Courier", 15), bg="#89AC76",
                               command=config["command"], width=10)
@@ -104,7 +95,6 @@ class Ventana2:
         # Crea el frame para el tamaño del tablero
         self.frame_size = tk.Frame(self.master, pady=10,  bg="#E6E6FA")
         self.frame_size.pack()
-
         # Crea el label y la entrada para el tamaño del tablero
         tk.Label(self.frame_size, text="Tamaño del tablero:", font=("Courier", 15), bg="#E6E6FA").pack(side=tk.LEFT)
         self.entry_size = tk.Entry(self.frame_size, font=("Courier", 15), width=5)
@@ -114,13 +104,10 @@ class Ventana2:
         # Crea el frame para el modo de juego
         self.frame_gamemod_2 = tk.Frame(self.master, bg="#E6E6FA", pady=10)
         self.frame_gamemod_2.pack()
-
         # Crea el label para el modo de juego
         tk.Label(self.frame_gamemod_2, text="Modo de juego:", font=("Courier", 14), bg="#E6E6FA").pack(side=tk.LEFT)
-
         # Crea las variables para el modo de juego
         self.gamemod_2 = tk.IntVar(value=0)
-
         # Crea los botones de radio para el modo de juego
         tk.Radiobutton(self.frame_gamemod_2, text="Modo simple", font=("Courier", 13), bg="#E6E6FA",
                        variable=self.gamemod_2, value=1).pack(side=tk.LEFT)
@@ -137,7 +124,6 @@ class Ventana2:
             #Muestra una ventana emergente con el mensaje de error
             messagebox.showerror("Error", "¡El tamaño del tablero debe ser un número entero mayor a 2!")
             return
-
         selected_option = int(self.gamemod_2.get())
         if selected_option == 1:
             gamemode_2 = 'Simple'
@@ -146,10 +132,8 @@ class Ventana2:
         else:
             messagebox.showinfo("Advertencia", "Por favor, elige un modo de juego.")
             return
-
         # Cierra la ventana actual
         self.master.destroy()
-
         # Crea la Ventana3 y la muestra
         ventana3 = tk.Toplevel(self.ventana_principal)
         ventana3_gui = Ventana3(ventana3, size, size, self.master.gamemode_1, gamemode_2)
@@ -157,7 +141,6 @@ class Ventana2:
     def volver(self):
         # Cierra la ventana
         self.master.destroy()
-
         # Muestra la ventana principal
         self.ventana_principal.deiconify()
 
@@ -174,21 +157,15 @@ class Ventana3:
         elif gamemode_2 == 'General':
             self.master.title("Tablero modo general")
         self.master.board = Board(gamemode_1, gamemode_2, filas)
-
         self.canvas_size = 400
         self.cell_size = self.canvas_size / self.master.board.size
         self.isGameOver = False
-
         # Frame izquierdo, titulo
         if gamemode_1 == 'PC vs PC':
             titulo = "Computer A"
         else:
             titulo = "Blue Player"
         self.create_left_frame(titulo, self.volver)
-
-
-        self.create_board(filas, columnas)
-
         #Frame derecho, titulo
         if gamemode_1 == 'P vs E':
             titulo_1 = "Computer"
@@ -196,9 +173,8 @@ class Ventana3:
             titulo_1 = "Computer B"
         else:
             titulo_1 = "Red Player"
-
         self.create_right_frame(titulo_1)
-
+        self.create_board(filas, columnas)
         self.create_turn_label()
         self.update_turn_label()
 
@@ -206,34 +182,26 @@ class Ventana3:
         # Crea el título del jugador
         titulo_label = tk.Label(frame, text=titulo, font=("Courier", 15), bg="#E6E6FA")
         titulo_label.pack(pady=10)
-
         # Crea los radio buttons para elegir entre S y O
         variable.set("S")
         radio_s = tk.Radiobutton(frame, text="S", variable=variable, value="S", bg="#E6E6FA")
         radio_s.pack()
         radio_o = tk.Radiobutton(frame, text="O", variable=variable, value="O", bg="#E6E6FA")
         radio_o.pack()
-
         # Deseleccionar los botones de radio
         variable.set(-1)
-
         # SOS creados
         if self.master.board.gamemode_2 == 'General':
             label = tk.Label(frame, text="SOS created: 0", font=("Courier", 15), bg="#E6E6FA")
             label.pack(pady=10)
             return label
 
-
     def create_left_frame(self, titulo, comando_volver):
-
         # Crea un frame para la izquierda de la ventana
         self.left_frame = tk.Frame(self.master, padx=10, pady=10, bg="#E6E6FA")
         self.left_frame.pack(side="left", fill="y")
-
         self.blue_var = tk.StringVar()
-        self.blue_sos_created_label = self.create_player_frame(self.left_frame, titulo, self.blue_var,
-                                                               self.blue_sos_created_label)
-
+        self.blue_sos_created_label = self.create_player_frame(self.left_frame, titulo, self.blue_var, self.blue_sos_created_label)
         # Añade el botón para volver a la ventana anterior
         self.boton_volver = tk.Button(self.left_frame, text="Volver", font=("Courier", 13), bg="#89AC76",command=comando_volver)
         self.boton_volver.pack(side="bottom", pady=10, anchor="sw")
@@ -242,11 +210,9 @@ class Ventana3:
         # Crea un marco para contener el tablero
         self.board_frame = tk.Frame(self.master, bg="#E6E6FA")
         self.board_frame.pack(side="left", fill="both", expand=True)
-
         # Crea un canvas para el tablero dentro del marco
         self.canvas_board = tk.Canvas(self.board_frame, width=self.canvas_size, height=self.canvas_size, bg="#E6E6FA")
         self.canvas_board.pack()
-
         # Dibuja las líneas del tablero
         for i in range(1, filas):
             y = i * self.canvas_size / filas
@@ -254,7 +220,6 @@ class Ventana3:
         for j in range(1, columnas):
             x = j * self.canvas_size / columnas
             self.canvas_board.create_line(x, 0, x, 400)
-
         # Añade evento "click" al canvas
         self.canvas_board.bind("<Button-1>", self.add_letter)
 
@@ -262,11 +227,8 @@ class Ventana3:
         # Crea un frame para la derecha de la ventana
         self.right_frame= tk.Frame(self.master, padx=10, pady=10,bg="#E6E6FA")
         self.right_frame.pack(side="right", fill="y")
-
         self.red_var = tk.StringVar()
-        self.red_sos_created_label = self.create_player_frame(self.right_frame, titulo, self.red_var,
-                                                              self.red_sos_created_label)
-
+        self.red_sos_created_label = self.create_player_frame(self.right_frame, titulo, self.red_var, self.red_sos_created_label)
         self.boton_nuevo_juego = tk.Button(self.right_frame, text="Nuevo Juego", font=("Courier", 13), bg="#89AC76",)
         self.boton_nuevo_juego.pack(side=tk.BOTTOM, pady=10)
 
@@ -274,7 +236,6 @@ class Ventana3:
         # Crea un frame contenedor en el mismo marco que el tablero
         self.turn_frame = tk.Frame(self.board_frame, bg="#89AC76")
         self.turn_frame.pack(side=tk.BOTTOM, pady=10)
-
         # Crea el label del turno dentro del frame contenedor
         self.turn_label = tk.Label(self.turn_frame, text="", font=("Courier", 12), bg="#89AC76")
         self.turn_label.grid(row=1, column=0, pady=10)
@@ -307,7 +268,6 @@ class Ventana3:
             # calcular fila y columna a partir de las coordenadas del evento
             row = int(event.y / self.cell_size)
             col = int(event.x / self.cell_size)
-
             # obtener letra y turno
             turn = self.master.board.turn
             letter = None
@@ -315,7 +275,6 @@ class Ventana3:
                 letter = self.blue_var.get()
             elif turn == 'Red' and self.red_var.get() != "-1":
                 letter = self.red_var.get()
-
             if letter is not None:
                 # añadir letra a la casilla correspondiente
                 if self.master.board.add_letter(letter, row, col):
@@ -366,20 +325,13 @@ class Ventana3:
     def volver(self):
         # Cierra la ventana actual
         self.master.destroy()
-
         # Muestra la ventana anterior
         self.master.master.deiconify()
-
-    def iniciar_juego(self):
-        # TODO: Lógica para iniciar el juego
-        pass
 
 # Crea la ventana principal
 ventana_principal = tk.Tk()
 ventana_principal.geometry("400x400")
-
 # Muestra la primera ventana
 ventana1 = Ventana1(ventana_principal)
-
 # Mantiene la ventana principal en bucle
 ventana_principal.mainloop()
