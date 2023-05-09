@@ -24,7 +24,7 @@ class Ventana1:
                 "command": self.multiplayer
             },
             {
-                "text": "E vs E",
+                "text": 'PC vs PC',
                 "command": self.computer
             },
             {
@@ -60,7 +60,7 @@ class Ventana1:
 
         # Crea la segunda ventana utilizando Toplevel
         ventana2 = tk.Toplevel()
-        Ventana2(ventana2, self.master, "E vs E")
+        Ventana2(ventana2, self.master, "PC vs PC")
 
     def salir(self):
         # Cierra la ventana principal
@@ -180,7 +180,7 @@ class Ventana3:
         self.isGameOver = False
 
         # Frame izquierdo, titulo
-        if gamemode_1 == 'E vs E':
+        if gamemode_1 == 'PC vs PC':
             titulo = "Computer A"
         else:
             titulo = "Blue Player"
@@ -192,7 +192,7 @@ class Ventana3:
         #Frame derecho, titulo
         if gamemode_1 == 'P vs E':
             titulo_1 = "Computer"
-        elif gamemode_1 == 'E vs E':
+        elif gamemode_1 == 'PC vs PC':
             titulo_1 = "Computer B"
         else:
             titulo_1 = "Red Player"
@@ -233,7 +233,7 @@ class Ventana3:
                                                                self.blue_sos_created_label)
 
         # Añade el botón para volver a la ventana anterior
-        self.boton_volver = tk.Button(self.left_frame, text="Volver", font=("Courier", 13), bg="#89AC76")
+        self.boton_volver = tk.Button(self.left_frame, text="Volver", font=("Courier", 13), bg="#89AC76",command=comando_volver)
         self.boton_volver.pack(side="bottom", pady=10, anchor="sw")
 
     def create_board(self, filas, columnas):
@@ -288,7 +288,7 @@ class Ventana3:
             else:
                 player = "Red Player"
             self.turn_label.config(text=f"Turno de {player}")
-        if gamemode_1 == 'E vs E':
+        if gamemode_1 == 'PC vs PC':
             if turn == 'Blue':
                 player = "Computer A"
             else:
