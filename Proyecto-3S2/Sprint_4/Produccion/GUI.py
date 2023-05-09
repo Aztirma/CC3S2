@@ -65,15 +65,21 @@ class Ventana2:
 
     def __init__(self, master, ventana_principal, gamemode_1):
         self.master = master
+        self.ventana_principal = ventana_principal
+        self.player_selection = ""
+
         self.master.title(gamemode_1)
         self.master.configure(bg="#E6E6FA")
         self.master.gamemode_1 = gamemode_1
-        self.ventana_principal = ventana_principal
         # Añade widgets a la ventana
         self.etiqueta = tk.Label(self.master, text=f" {gamemode_1}", font=("Courier", 18), bg="#E6E6FA")
         self.etiqueta.pack(pady=12)
         # Crea los widgets para elegir el tamaño del tablero y el modo de juego
         self.board_size()
+
+        if gamemode_1 == 'P vs E':
+            self.choose_player()
+
         self.choose_gamemod_2()
         #botones
         botones_config_2 = [
@@ -100,6 +106,26 @@ class Ventana2:
         self.entry_size = tk.Entry(self.frame_size, font=("Courier", 15), width=5)
         self.entry_size.pack(side=tk.LEFT)
 
+    def choose_player(self):
+        # Crea el frame para elegir el jugador
+        self.frame_player = tk.Frame(self.master, bg="#E6E6FA", pady=10)
+        self.frame_player.pack()
+
+        # Crea el label para elegir el jugador
+        tk.Label(self.frame_player, text="Elige tu jugador:", font=("Courier", 14), bg="#E6E6FA").pack(side=tk.LEFT)
+
+        # Crea las variables para el jugador
+        self.players = tk.StringVar(value=0)
+
+        # Crea los botones de radio para elegir el jugador
+        tk.Radiobutton(self.frame_player, text="Blue Player", font=("Courier", 13), bg="#E6E6FA",
+                       variable=self.players, value=1).pack(side=tk.LEFT)
+        tk.Radiobutton(self.frame_player, text="Red Player", font=("Courier", 13), bg="#E6E6FA",
+                       variable=self.players, value=2).pack(side=tk.LEFT)
+
+        # Muestra el valor seleccionado del jugador
+        self.player_selection = int(self.players.get())
+
     def choose_gamemod_2(self):
         # Crea el frame para el modo de juego
         self.frame_gamemod_2 = tk.Frame(self.master, bg="#E6E6FA", pady=10)
@@ -124,6 +150,7 @@ class Ventana2:
             #Muestra una ventana emergente con el mensaje de error
             messagebox.showerror("Error", "¡El tamaño del tablero debe ser un número entero mayor a 2!")
             return
+
         selected_option = int(self.gamemod_2.get())
         if selected_option == 1:
             gamemode_2 = 'Simple'
@@ -151,29 +178,40 @@ class Ventana3:
         self.red_sos_created_label = None
         self.blue_sos_created_label = None
         self.master = master
-        self.gamemode_1=gamemode_1
+        self.gamemode_1 = gamemode_1
+
+
         if gamemode_2 == 'Simple':
             self.master.title("Tablero modo simple")
         elif gamemode_2 == 'General':
             self.master.title("Tablero modo general")
+
         self.master.board = Board(gamemode_1, gamemode_2, filas)
         self.canvas_size = 400
         self.cell_size = self.canvas_size / self.master.board.size
         self.isGameOver = False
+
         # Frame izquierdo, titulo
         if gamemode_1 == 'PC vs PC':
             titulo = "Computer A"
+
+        elif gamemode_1 == 'P vs E':
+            titulo = "Blue Player   "
+
         else:
             titulo = "Blue Player"
         self.create_left_frame(titulo, self.volver)
+
         #Frame derecho, titulo
-        if gamemode_1 == 'P vs E':
-            titulo_1 = "Computer"
-        elif gamemode_1 == 'PC vs PC':
+        if gamemode_1 == 'PC vs PC':
             titulo_1 = "Computer B"
+        elif gamemode_1 == 'P vs E':
+            titulo_1 = "Computer"
+
         else:
             titulo_1 = "Red Player"
         self.create_right_frame(titulo_1)
+
         self.create_board(filas, columnas)
         self.create_turn_label()
         self.update_turn_label()
