@@ -26,24 +26,19 @@ class Computer:
         empty_cells = Computer.get_empty_cells(cells)
 
         for pos in empty_cells:
-            copy_cells = cells.copy()
-            copy_cells[pos[0]][pos[1]].add_letter('S')
+            for letter in ['S', 'O']:
+                copy_cells = cells.copy()
+                copy_cells[pos[0]][pos[1]].add_letter(letter)
 
-            if len(self.check_possible_SOS(copy_cells)) == 0:
-                candidate_plays.append(('S', pos))
-
-            copy_cells = cells.copy()
-            copy_cells[pos[0]][pos[1]].add_letter('O')
-
-            if len(self.check_possible_SOS(copy_cells)) == 0:
-                candidate_plays.append(('O', pos))
+                if len(self.check_possible_SOS(copy_cells)) == 0:
+                    candidate_plays.append((letter, pos))
 
         if len(candidate_plays) > 0:
             return random.choice(candidate_plays)
 
         for pos in empty_cells:
-            candidate_plays.append(('S', pos))
-            candidate_plays.append(('O', pos))
+            for letter in ['S', 'O']:
+                candidate_plays.append((letter, pos))
 
         return random.choice(candidate_plays)
 
@@ -58,6 +53,7 @@ class Computer:
                 board = Board(self.gamemode_1, self.gamemode_2, self.size)
                 board.cells = copy_cells
                 createdSOS, _ = board.check_SOS(letter, pos[0], pos[1])
+
                 if createdSOS:
                     candidate_plays.append((letter, pos))
 
