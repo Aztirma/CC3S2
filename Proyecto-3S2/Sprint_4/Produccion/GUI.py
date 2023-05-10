@@ -2,6 +2,7 @@ import tkinter as tk
 from Board import *
 from tkinter import messagebox
 
+
 class Ventana1:
 
     def __init__(self, master):
@@ -11,10 +12,10 @@ class Ventana1:
         # Añade widgets a la ventana
         self.etiqueta = tk.Label(self.master, text="Bienvenido a S O S", bg="#E6E6FA", font=("Courier", 20))
         self.etiqueta.pack(pady=20)
-        #Refac. botones
+        # Refac. botones
         botones_config = [
             {
-                "text": "P vs E",
+                "text": "P vs PC",
                 "command": self.singleplayer
             },
             {
@@ -41,7 +42,7 @@ class Ventana1:
         self.master.withdraw()
         # Crea la segunda ventana utilizando Toplevel
         ventana2 = tk.Toplevel()
-        Ventana2(ventana2, self.master, "P vs E")
+        Ventana2(ventana2, self.master, "P vs PC")
 
     def multiplayer(self):
         # Oculta la ventana principal
@@ -61,13 +62,21 @@ class Ventana1:
         # Cierra la ventana principal
         self.master.destroy()
 
+
 class Ventana2:
 
-    def __init__(self, master, ventana_principal, gamemode_1):
+    def __init__(self, master, v_principal, gamemode_1):
         self.master = master
-        self.ventana_principal = ventana_principal
+        self.ventana_principal = v_principal
         self.player_selection = 0
-        self.players = None if gamemode_1 != "P vs P" else tk.StringVar(value="P vs P")  # Inicializa con valor predeterminado si no es P vs P
+        self.frame_size = None
+        self.entry_size = None
+        self.frame_player = None
+        self.frame_gamemod_2 = None
+        self.gamemod_2 = None
+        # Inicializa con valor predeterminado si no es P vs P
+        self.players = None if gamemode_1 != "P vs P" else tk.StringVar(value="P vs P")
+
         self.master.title(gamemode_1)
         self.master.configure(bg="#E6E6FA")
         self.master.gamemode_1 = gamemode_1
@@ -75,7 +84,7 @@ class Ventana2:
         self.etiqueta.pack(pady=12)
         self.board_size()
 
-        if gamemode_1 == 'P vs E':
+        if gamemode_1 == 'P vs PC':
             self.choose_player()
 
         self.choose_gamemod_2()
@@ -112,7 +121,7 @@ class Ventana2:
         tk.Label(self.frame_player, text="Elige tu jugador:", font=("Courier", 14), bg="#E6E6FA").pack(side=tk.LEFT)
 
         # Crea las variables para el jugador
-        self.players = tk.StringVar(value=0)
+        self.players = tk.StringVar(value='')
 
         # Crea los botones de radio para elegir el jugador
         tk.Radiobutton(self.frame_player, text="Blue Player", font=("Courier", 13), bg="#E6E6FA",
@@ -129,8 +138,10 @@ class Ventana2:
         # Crea las variables para el modo de juego
         self.gamemod_2 = tk.IntVar(value=0)
         # Crea los botones de radio para el modo de juego
-        tk.Radiobutton(self.frame_gamemod_2, text="Modo simple", font=("Courier", 13), bg="#E6E6FA", variable=self.gamemod_2, value=1).pack(side=tk.LEFT)
-        tk.Radiobutton(self.frame_gamemod_2, text="Modo general", font=("Courier", 13), bg="#E6E6FA", variable=self.gamemod_2, value=2).pack(side=tk.LEFT)
+        tk.Radiobutton(self.frame_gamemod_2, text="Modo simple", font=("Courier", 13),
+                       bg="#E6E6FA", variable=self.gamemod_2, value=1).pack(side=tk.LEFT)
+        tk.Radiobutton(self.frame_gamemod_2, text="Modo general", font=("Courier", 13),
+                       bg="#E6E6FA", variable=self.gamemod_2, value=2).pack(side=tk.LEFT)
 
     def comenzar(self):
         # Obtiene el tamaño del tablero ingresado por el usuario
@@ -139,7 +150,7 @@ class Ventana2:
             if size <= 2 or size > 16:
                 raise ValueError
         except ValueError:
-            #Muestra una ventana emergente con el mensaje de error
+            # Muestra una ventana emergente con el mensaje de error
             messagebox.showerror("Error", "¡El tamaño del tablero debe ser un número entero mayor a 2!")
             return
         selected_option = int(self.gamemod_2.get())
@@ -152,7 +163,7 @@ class Ventana2:
             return
         if self.master.gamemode_1 == "P vs P":
             self.player_selection = "P vs P"
-        elif self.master.gamemode_1 == "P vs E":
+        elif self.master.gamemode_1 == "P vs PC":
             if self.players is None:
                 messagebox.showinfo("Advertencia", "Por favor, elige un jugador.")
                 return
@@ -163,7 +174,7 @@ class Ventana2:
         self.master.destroy()
         # Crea la Ventana3 y la muestra
         ventana3 = tk.Toplevel(self.ventana_principal)
-        ventana3 = Ventana3(ventana3, size, size, self.master.gamemode_1, gamemode_2,self.player_selection)
+        Ventana3(ventana3, size, size, self.master.gamemode_1, gamemode_2, self.player_selection)
 
     def volver(self):
         # Cierra la ventana
@@ -171,13 +182,22 @@ class Ventana2:
         # Muestra la ventana principal
         self.ventana_principal.deiconify()
 
+
 class Ventana3:
-    def __init__(self, master, filas, columnas, gamemode_1, gamemode_2,player_selection):
-        self.player_selection =player_selection
+    def __init__(self, master, filas, columnas, gamemode_1, gamemode_2, player_selection):
+        self.player_selection = player_selection
         self.red_var = tk.IntVar(value=-1)
         self.blue_var = tk.IntVar(value=-1)
         self.red_sos_created_label = None
         self.blue_sos_created_label = None
+        self.left_frame = None
+        self.right_frame = None
+        self.boton_volver = None
+        self.board_frame = None
+        self.canvas_board = None
+        self.boton_nuevo_juego = None
+        self.turn_frame = None
+        self.turn_label = None
         self.master = master
         self.gamemode_1 = gamemode_1
 
@@ -194,25 +214,17 @@ class Ventana3:
         # Frame izquierdo, titulo
         if gamemode_1 == 'PC vs PC':
             titulo = "Computer A"
-
         elif gamemode_1 == 'P vs E':
-            if self.player_selection == "Blue Player":
-                titulo = "Blue Player"
-            else:
-                titulo = "Computer"
-
+            titulo = "Blue Player" if self.player_selection == "Blue Player" else "Computer"
         else:
             titulo = "Blue Player"
         self.create_left_frame(titulo, self.volver)
 
-        #Frame derecho, titulo
+        # Frame derecho, titulo
         if gamemode_1 == 'PC vs PC':
             titulo_1 = "Computer B"
         elif gamemode_1 == 'P vs E':
-            if self.player_selection == "Blue Player":
-                titulo_1 = "Computer"
-            else:
-                titulo_1 = "Red Player"
+            titulo_1 = "Computer" if self.player_selection == "Blue Player" else "Red Player"
         else:
             titulo_1 = "Red Player"
         self.create_right_frame(titulo_1)
@@ -221,7 +233,7 @@ class Ventana3:
         self.create_turn_label()
         self.update_turn_label()
 
-    def create_player_frame(self, frame, titulo, variable, label):
+    def create_player_frame(self, frame, titulo, variable):
         # Crea el título del jugador
         titulo_label = tk.Label(frame, text=titulo, font=("Courier", 15), bg="#E6E6FA")
         titulo_label.pack(pady=10)
@@ -244,9 +256,10 @@ class Ventana3:
         self.left_frame = tk.Frame(self.master, padx=10, pady=10, bg="#E6E6FA")
         self.left_frame.pack(side="left", fill="y")
         self.blue_var = tk.StringVar()
-        self.blue_sos_created_label = self.create_player_frame(self.left_frame, titulo, self.blue_var, self.blue_sos_created_label)
+        self.blue_sos_created_label = self.create_player_frame(self.left_frame, titulo, self.blue_var)
         # Añade el botón para volver a la ventana anterior
-        self.boton_volver = tk.Button(self.left_frame, text="Volver", font=("Courier", 13), bg="#89AC76",command=comando_volver)
+        self.boton_volver = tk.Button(self.left_frame, text="Volver", font=("Courier", 13),
+                                      bg="#89AC76", command=comando_volver)
         self.boton_volver.pack(side="bottom", pady=10, anchor="sw")
 
     def create_board(self, filas, columnas):
@@ -268,10 +281,10 @@ class Ventana3:
 
     def create_right_frame(self, titulo):
         # Crea un frame para la derecha de la ventana
-        self.right_frame= tk.Frame(self.master, padx=10, pady=10,bg="#E6E6FA")
+        self.right_frame = tk.Frame(self.master, padx=10, pady=10, bg="#E6E6FA")
         self.right_frame.pack(side="right", fill="y")
         self.red_var = tk.StringVar()
-        self.red_sos_created_label = self.create_player_frame(self.right_frame, titulo, self.red_var, self.red_sos_created_label)
+        self.red_sos_created_label = self.create_player_frame(self.right_frame, titulo, self.red_var)
         self.boton_nuevo_juego = tk.Button(self.right_frame, text="Nuevo Juego", font=("Courier", 13), bg="#89AC76",)
         self.boton_nuevo_juego.pack(side=tk.BOTTOM, pady=10)
 
@@ -288,23 +301,12 @@ class Ventana3:
         gamemode_1 = self.gamemode_1
         turn = self.master.board.turn
         if gamemode_1 == 'P vs E':
-            if turn == 'Blue':
-                player = "Computer"
-            else:
-                player = "Red Player"
-            self.turn_label.config(text=f"Turno de {player}")
-        if gamemode_1 == 'PC vs PC':
-            if turn == 'Blue':
-                player = "Computer A"
-            else:
-                player = "Computer B"
-            self.turn_label.config(text=f"Turno de {player}")
+            player = "Computer" if turn == 'Blue' else "Red Player"
+        elif gamemode_1 == 'PC vs PC':
+            player = "Computer A" if turn == 'Blue' else "Computer B"
         else:
-            if turn == 'Blue':
-                player = "Blue Player"
-            else:
-                player = "Red Player"
-            self.turn_label.config(text=f"Turno de {player}")
+            player = "Blue Player" if turn == 'Blue' else "Red Player"
+        self.turn_label.config(text=f"Turno de {player}")
 
     def add_letter(self, event):
         if not self.isGameOver:
@@ -325,7 +327,8 @@ class Ventana3:
                     x0 = col * self.cell_size
                     y0 = row * self.cell_size
                     # dibujar la letra en la casilla correspondiente
-                    self.canvas_board.create_text(x0 + self.cell_size / 2, y0 + self.cell_size / 2, text=letter, fill="black")
+                    self.canvas_board.create_text(x0 + self.cell_size / 2, y0 + self.cell_size / 2,
+                                                  text=letter, fill="black")
                     createdSOS = self.check_and_draw_SOS(letter, row, col)
                     result = self.master.board.checkVictory()
                     if result is not None:
@@ -370,6 +373,7 @@ class Ventana3:
         self.master.destroy()
         # Muestra la ventana anterior
         self.master.master.deiconify()
+
 
 # Crea la ventana principal
 ventana_principal = tk.Tk()

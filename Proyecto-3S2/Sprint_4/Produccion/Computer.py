@@ -1,4 +1,5 @@
 import random
+import time
 from Board import *
 
 
@@ -40,6 +41,7 @@ class Computer:
             for letter in ['S', 'O']:
                 candidate_plays.append((letter, pos))
 
+        time.sleep(1)
         return random.choice(candidate_plays)
 
     def check_possible_SOS(self, cells):
