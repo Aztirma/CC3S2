@@ -1,5 +1,6 @@
 import tkinter as tk
 from Board import *
+from Computer import *
 from tkinter import messagebox
 
 
@@ -121,7 +122,7 @@ class Ventana2:
         tk.Label(self.frame_player, text="Elige tu jugador:", font=("Courier", 14), bg="#E6E6FA").pack(side=tk.LEFT)
 
         # Crea las variables para el jugador
-        self.players = tk.StringVar(value='')
+        self.players = tk.StringVar(value='0')
 
         # Crea los botones de radio para elegir el jugador
         tk.Radiobutton(self.frame_player, text="Blue Player", font=("Courier", 13), bg="#E6E6FA",
@@ -214,7 +215,7 @@ class Ventana3:
         # Frame izquierdo, titulo
         if gamemode_1 == 'PC vs PC':
             titulo = "Computer A"
-        elif gamemode_1 == 'P vs E':
+        elif gamemode_1 == 'P vs PC':
             titulo = "Blue Player" if self.player_selection == "Blue Player" else "Computer"
         else:
             titulo = "Blue Player"
@@ -223,11 +224,18 @@ class Ventana3:
         # Frame derecho, titulo
         if gamemode_1 == 'PC vs PC':
             titulo_1 = "Computer B"
-        elif gamemode_1 == 'P vs E':
+        elif gamemode_1 == 'P vs PC':
             titulo_1 = "Computer" if self.player_selection == "Blue Player" else "Red Player"
         else:
             titulo_1 = "Red Player"
         self.create_right_frame(titulo_1)
+
+        # Computadoras
+        if gamemode_1 == 'PC vs PC':
+            self.computer_A = Computer(gamemode_1, gamemode_2, filas)
+            self.computer_B = Computer(gamemode_1, gamemode_2, filas)
+        elif gamemode_1 == 'P vs PC':
+            self.computer = Computer(gamemode_1, gamemode_2, filas)
 
         self.create_board(filas, columnas)
         self.create_turn_label()
