@@ -187,10 +187,10 @@ class Ventana2:
 class Ventana3:
     def __init__(self, master, filas, columnas, gamemode_1, gamemode_2, player_selection):
         self.player_selection = player_selection
-        self.red_var = tk.IntVar(value=-1)
-        self.blue_var = tk.IntVar(value=-1)
-        self.red_sos_created_label = None
-        self.blue_sos_created_label = None
+        self.left_letter = tk.IntVar(value=-1)
+        self.right_letter = tk.IntVar(value=-1)
+        self.left_sos_created_label = None
+        self.right_sos_created_label = None
         self.left_frame = None
         self.right_frame = None
         self.boton_volver = None
@@ -214,32 +214,34 @@ class Ventana3:
 
         # Frame izquierdo, titulo
         if gamemode_1 == 'PC vs PC':
-            titulo = "Computer A"
+            self.left_name = "Computer A"
         elif gamemode_1 == 'P vs PC':
-            titulo = "Blue Player" if self.player_selection == "Blue Player" else "Computer"
+            self.left_name = "Blue Player" if self.player_selection == "Blue Player" else "Computer"
         else:
-            titulo = "Blue Player"
-        self.create_left_frame(titulo, self.volver)
+            self.left_name = "Blue Player"
+        self.create_left_frame(self.left_name, self.volver)
 
         # Frame derecho, titulo
         if gamemode_1 == 'PC vs PC':
-            titulo_1 = "Computer B"
+            self.right_name = "Computer B"
         elif gamemode_1 == 'P vs PC':
-            titulo_1 = "Computer" if self.player_selection == "Blue Player" else "Red Player"
+            self.right_name = "Computer" if self.player_selection == "Blue Player" else "Red Player"
         else:
-            titulo_1 = "Red Player"
-        self.create_right_frame(titulo_1)
-
-        # Computadoras
-        if gamemode_1 == 'PC vs PC':
-            self.computer_A = Computer(gamemode_1, gamemode_2, filas)
-            self.computer_B = Computer(gamemode_1, gamemode_2, filas)
-        elif gamemode_1 == 'P vs PC':
-            self.computer = Computer(gamemode_1, gamemode_2, filas)
+            self.right_name = "Red Player"
+        self.create_right_frame(self.right_name)
 
         self.create_board(filas, columnas)
         self.create_turn_label()
         self.update_turn_label()
+
+        # Iniciar computadora(s)
+        if gamemode_1 == 'PC vs PC':
+            self.computer_A = Computer(gamemode_1, gamemode_2, filas)
+            self.computer_B = Computer(gamemode_1, gamemode_2, filas)
+            self.start_game_PC_PC()
+        elif gamemode_1 == 'P vs PC':
+            self.computer = Computer(gamemode_1, gamemode_2, filas)
+            self.start_game_P_PC()
 
     def create_player_frame(self, frame, titulo, variable):
         # Crea el título del jugador
@@ -263,8 +265,8 @@ class Ventana3:
         # Crea un frame para la izquierda de la ventana
         self.left_frame = tk.Frame(self.master, padx=10, pady=10, bg="#E6E6FA")
         self.left_frame.pack(side="left", fill="y")
-        self.blue_var = tk.StringVar()
-        self.blue_sos_created_label = self.create_player_frame(self.left_frame, titulo, self.blue_var)
+        self.left_letter = tk.StringVar()
+        self.left_sos_created_label = self.create_player_frame(self.left_frame, titulo, self.left_letter)
         # Añade el botón para volver a la ventana anterior
         self.boton_volver = tk.Button(self.left_frame, text="Volver", font=("Courier", 13),
                                       bg="#89AC76", command=comando_volver)
@@ -291,8 +293,8 @@ class Ventana3:
         # Crea un frame para la derecha de la ventana
         self.right_frame = tk.Frame(self.master, padx=10, pady=10, bg="#E6E6FA")
         self.right_frame.pack(side="right", fill="y")
-        self.red_var = tk.StringVar()
-        self.red_sos_created_label = self.create_player_frame(self.right_frame, titulo, self.red_var)
+        self.right_letter = tk.StringVar()
+        self.right_sos_created_label = self.create_player_frame(self.right_frame, titulo, self.right_letter)
         self.boton_nuevo_juego = tk.Button(self.right_frame, text="Nuevo Juego", font=("Courier", 13), bg="#89AC76",)
         self.boton_nuevo_juego.pack(side=tk.BOTTOM, pady=10)
 
@@ -306,15 +308,9 @@ class Ventana3:
 
     def update_turn_label(self):
         # Actualiza el texto del label del turno con el jugador correspondiente
-        gamemode_1 = self.gamemode_1
         turn = self.master.board.turn
-        if gamemode_1 == 'P vs E':
-            player = "Computer" if turn == 'Blue' else "Red Player"
-        elif gamemode_1 == 'PC vs PC':
-            player = "Computer A" if turn == 'Blue' else "Computer B"
-        else:
-            player = "Blue Player" if turn == 'Blue' else "Red Player"
-        self.turn_label.config(text=f"Turno de {player}")
+        player = self.left_name if turn == 'left' else self.right_name
+        self.turn_label.config(text=f'Turno de {player}')
 
     def add_letter(self, event):
         if not self.isGameOver:
@@ -324,10 +320,10 @@ class Ventana3:
             # obtener letra y turno
             turn = self.master.board.turn
             letter = None
-            if turn == 'Blue' and self.blue_var.get() != "-1":
-                letter = self.blue_var.get()
-            elif turn == 'Red' and self.red_var.get() != "-1":
-                letter = self.red_var.get()
+            if turn == 'left' and self.left_letter.get() != "-1":
+                letter = self.left_letter.get()
+            elif turn == 'right' and self.right_letter.get() != "-1":
+                letter = self.right_letter.get()
             if letter is not None:
                 # añadir letra a la casilla correspondiente
                 if self.master.board.add_letter(letter, row, col):
@@ -350,8 +346,8 @@ class Ventana3:
                 # actualizar etiqueta de turno
                 self.update_turn_label()
                 if self.master.board.gamemode_2 == 'General':
-                    self.blue_sos_created_label.config(text=f"SOS created: {self.master.board.SOS_created['Blue']}")
-                    self.red_sos_created_label.config(text=f"SOS created: {self.master.board.SOS_created['Red']}")
+                    self.left_sos_created_label.config(text=f"SOS created: {self.master.board.SOS_created['left']}")
+                    self.right_sos_created_label.config(text=f"SOS created: {self.master.board.SOS_created['right']}")
 
     def check_and_draw_SOS(self, letter, x, y):
         createdSOS, SOS = self.master.board.check_SOS(letter, x, y)
@@ -359,7 +355,7 @@ class Ventana3:
             for s in SOS:
                 x1, y1 = s[0][1] * self.cell_size + self.cell_size / 2, s[0][0] * self.cell_size + self.cell_size / 2
                 x2, y2 = s[1][1] * self.cell_size + self.cell_size / 2, s[1][0] * self.cell_size + self.cell_size / 2
-                color = self.master.board.turn.lower()
+                color = 'Blue' if self.master.board.turn == 'left' else 'Red'
                 self.canvas_board.create_line(x1, y1, x2, y2, fill=color)
         return createdSOS
 
@@ -369,12 +365,15 @@ class Ventana3:
             messagebox.showinfo("Sin ganador", "El juego aún no ha terminado.")
         else:
             self.isGameOver = True
-            if resultado == 'Blue':
-                messagebox.showinfo("Ganador", "¡Blue Player ha ganado!")
-            elif resultado == 'Red':
-                messagebox.showinfo("Ganador", "¡Red Player ha ganado!")
+            if resultado == 'left':
+                messagebox.showinfo("Ganador", f"¡{self.left_name} ha ganado!")
+            elif resultado == 'right':
+                messagebox.showinfo("Ganador", f"¡{self.right_name} ha ganado!")
             elif resultado == "Draw":
                 messagebox.showinfo("Empate", "¡El juego ha terminado en empate!")
+
+    def start_game_P_PC(self):
+        return
 
     def volver(self):
         # Cierra la ventana actual
