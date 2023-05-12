@@ -199,6 +199,7 @@ class Ventana3:
         self.boton_nuevo_juego = None
         self.turn_frame = None
         self.turn_label = None
+        self.is_computer_playing = False
         self.master = master
         self.gamemode_1 = gamemode_1
 
@@ -215,8 +216,10 @@ class Ventana3:
         # Frame izquierdo, titulo
         if gamemode_1 == 'PC vs PC':
             self.left_name = "Computer A"
+            self.is_computer_playing = True
         elif gamemode_1 == 'P vs PC':
             self.left_name = "Blue Player" if self.player_selection == "Blue Player" else "Computer"
+            self.is_computer_playing = True if self.player_selection == "Red Player" else False
         else:
             self.left_name = "Blue Player"
         self.create_left_frame(self.left_name, self.volver)
@@ -238,10 +241,10 @@ class Ventana3:
         if gamemode_1 == 'PC vs PC':
             self.computer_A = Computer(gamemode_1, gamemode_2, filas)
             self.computer_B = Computer(gamemode_1, gamemode_2, filas)
-            self.start_game_PC_PC()
+            self.start_computer()
         elif gamemode_1 == 'P vs PC':
             self.computer = Computer(gamemode_1, gamemode_2, filas)
-            self.start_game_P_PC()
+            self.start_computer()
 
     def create_player_frame(self, frame, titulo, variable, enabled=True):
         # Crea el título del jugador
@@ -316,10 +319,11 @@ class Ventana3:
         # Actualiza el texto del label del turno con el jugador correspondiente
         turn = self.master.board.turn
         player = self.left_name if turn == 'left' else self.right_name
+        self.is_computer_playing = True if 'Computer' in player else False
         self.turn_label.config(text=f'Turno de {player}')
 
     def add_letter(self, event):
-        if not self.isGameOver:
+        if not self.isGameOver and not self.is_computer_playing:
             # calcular fila y columna a partir de las coordenadas del evento
             row = int(event.y / self.cell_size)
             col = int(event.x / self.cell_size)
@@ -378,7 +382,7 @@ class Ventana3:
             elif resultado == "Draw":
                 messagebox.showinfo("Empate", "¡El juego ha terminado en empate!")
 
-    def start_game_P_PC(self):
+    def start_computer(self):
         return
 
     def volver(self):
