@@ -1,3 +1,4 @@
+import time
 import tkinter as tk
 from Board import *
 from Computer import *
@@ -241,10 +242,11 @@ class Ventana3:
         if gamemode_1 == 'PC vs PC':
             self.computer_A = Computer(gamemode_1, gamemode_2, filas)
             self.computer_B = Computer(gamemode_1, gamemode_2, filas)
-            self.start_computer()
+            self.start_computer_game()
         elif gamemode_1 == 'P vs PC':
             self.computer = Computer(gamemode_1, gamemode_2, filas)
-            self.start_computer()
+            if self.left_name == 'Computer':
+                self.start_computer_turn()
 
     def create_player_frame(self, frame, titulo, variable, enabled=True):
         # Crea el título del jugador
@@ -336,28 +338,33 @@ class Ventana3:
                 letter = self.right_letter.get()
             if letter is not None:
                 # añadir letra a la casilla correspondiente
-                if self.master.board.add_letter(letter, row, col):
-                    # obtener la coordenada (x, y) de la esquina superior izquierda de la casilla
-                    x0 = col * self.cell_size
-                    y0 = row * self.cell_size
-                    # dibujar la letra en la casilla correspondiente
-                    self.canvas_board.create_text(x0 + self.cell_size / 2, y0 + self.cell_size / 2,
-                                                  text=letter, fill="black")
-                    createdSOS = self.check_and_draw_SOS(letter, row, col)
-                    result = self.master.board.checkVictory()
-                    if result is not None:
-                        self.mostrarGanador()
-                    elif not createdSOS:
-                        self.master.board.change_turn()
-                else:
-                    # La casilla ya está ocupada
-                    tk.messagebox.showerror("Error", "Esta casilla ya está ocupada")
+                self.add_letter_board(letter, row, col)
+                if (self.master.board.turn == 'left' and 'Computer' in self.left_name) or \
+                        (self.master.board.turn == 'right' and 'Computer' in self.right_name):
+                    self.is_computer_playing = True
+                    self.start_computer_turn()
 
-                # actualizar etiqueta de turno
+    def add_letter_board(self, letter, row, col):
+        if self.master.board.add_letter(letter, row, col):
+            # obtener la coordenada (x, y) de la esquina superior izquierda de la casilla
+            x0 = col * self.cell_size
+            y0 = row * self.cell_size
+            # dibujar la letra en la casilla correspondiente
+            self.canvas_board.create_text(x0 + self.cell_size / 2, y0 + self.cell_size / 2,
+                                          text=letter, fill="black")
+            createdSOS = self.check_and_draw_SOS(letter, row, col)
+            result = self.master.board.checkVictory()
+            if result is not None:
+                self.mostrarGanador()
+            elif not createdSOS:
+                self.master.board.change_turn()
                 self.update_turn_label()
                 if self.master.board.gamemode_2 == 'General':
                     self.left_sos_created_label.config(text=f"SOS created: {self.master.board.SOS_created['left']}")
                     self.right_sos_created_label.config(text=f"SOS created: {self.master.board.SOS_created['right']}")
+        else:
+            # La casilla ya está ocupada
+            tk.messagebox.showerror("Error", "Esta casilla ya está ocupada")
 
     def check_and_draw_SOS(self, letter, x, y):
         createdSOS, SOS = self.master.board.check_SOS(letter, x, y)
@@ -382,8 +389,15 @@ class Ventana3:
             elif resultado == "Draw":
                 messagebox.showinfo("Empate", "¡El juego ha terminado en empate!")
 
-    def start_computer(self):
-        return
+    def start_computer_turn(self):
+        play = self.computer.play_turn(self.master.board.cells)
+        letter = play[0]
+        row, col = play[1][0], play[1][1]
+        self.add_letter_board(letter, row, col)
+        self.is_computer_playing = False
+
+    def start_computer_game(self):
+
 
     def volver(self):
         # Cierra la ventana actual

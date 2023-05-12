@@ -90,3 +90,9 @@ class Board:
                     return players[1]
                 return 'Draw'
             return None
+
+    def print_console(self):
+        for i in range(self.size):
+            for j in range(self.size):
+                print(self.cells[i][j].letter, ' ', end='')
+            print()
