@@ -243,7 +243,7 @@ class Ventana3:
             self.computer = Computer(gamemode_1, gamemode_2, filas)
             self.start_game_P_PC()
 
-    def create_player_frame(self, frame, titulo, variable):
+    def create_player_frame(self, frame, titulo, variable, enabled=True):
         # Crea el título del jugador
         titulo_label = tk.Label(frame, text=titulo, font=("Courier", 15), bg="#E6E6FA")
         titulo_label.pack(pady=10)
@@ -255,6 +255,10 @@ class Ventana3:
         radio_o.pack()
         # Deseleccionar los botones de radio
         variable.set(-1)
+        # Deshabilitar para computadora
+        if not enabled:
+            radio_s.configure(state='disabled')
+            radio_o.configure(state='disabled')
         # SOS creados
         if self.master.board.gamemode_2 == 'General':
             label = tk.Label(frame, text="SOS created: 0", font=("Courier", 15), bg="#E6E6FA")
@@ -266,7 +270,8 @@ class Ventana3:
         self.left_frame = tk.Frame(self.master, padx=10, pady=10, bg="#E6E6FA")
         self.left_frame.pack(side="left", fill="y")
         self.left_letter = tk.StringVar()
-        self.left_sos_created_label = self.create_player_frame(self.left_frame, titulo, self.left_letter)
+        self.left_sos_created_label = self.create_player_frame(self.left_frame, titulo,
+                                                               self.left_letter, 'Player' in self.left_name)
         # Añade el botón para volver a la ventana anterior
         self.boton_volver = tk.Button(self.left_frame, text="Volver", font=("Courier", 13),
                                       bg="#89AC76", command=comando_volver)
@@ -294,7 +299,8 @@ class Ventana3:
         self.right_frame = tk.Frame(self.master, padx=10, pady=10, bg="#E6E6FA")
         self.right_frame.pack(side="right", fill="y")
         self.right_letter = tk.StringVar()
-        self.right_sos_created_label = self.create_player_frame(self.right_frame, titulo, self.right_letter)
+        self.right_sos_created_label = self.create_player_frame(self.right_frame, titulo,
+                                                                self.right_letter, 'Player' in self.right_name)
         self.boton_nuevo_juego = tk.Button(self.right_frame, text="Nuevo Juego", font=("Courier", 13), bg="#89AC76",)
         self.boton_nuevo_juego.pack(side=tk.BOTTOM, pady=10)
 
