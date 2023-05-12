@@ -397,7 +397,13 @@ class Ventana3:
         self.is_computer_playing = False
 
     def start_computer_game(self):
-
+        if not self.isGameOver:
+            actual_computer = self.computer_A if self.master.board.turn == 'left' else self.computer_B
+            play = actual_computer.play_turn(self.master.board.cells)
+            letter = play[0]
+            row, col = play[1][0], play[1][1]
+            self.add_letter_board(letter, row, col)
+            ventana_principal.after(1000, self.start_computer_game)
 
     def volver(self):
         # Cierra la ventana actual

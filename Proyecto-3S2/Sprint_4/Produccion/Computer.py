@@ -28,8 +28,6 @@ class Computer:
     def play_turn(self, cells):
         candidate_plays = self.check_possible_SOS(cells)
         if len(candidate_plays) > 0:
-            play = random.choice(candidate_plays)
-            print(play)
             return random.choice(candidate_plays)
 
         empty_cells = Computer.get_empty_cells(cells)
@@ -43,15 +41,11 @@ class Computer:
                     candidate_plays.append((letter, pos))
 
         if len(candidate_plays) > 0:
-            play = random.choice(candidate_plays)
-            print(play)
             return random.choice(candidate_plays)
 
         for pos in empty_cells:
             for letter in ['S', 'O']:
                 candidate_plays.append((letter, pos))
-        play = random.choice(candidate_plays)
-        print(play)
         return random.choice(candidate_plays)
 
     def check_possible_SOS(self, cells):
