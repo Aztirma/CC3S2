@@ -4,7 +4,6 @@ from Board import *
 from Computer import *
 from tkinter import messagebox
 
-
 class Ventana1:
 
     def __init__(self, master):
@@ -63,7 +62,6 @@ class Ventana1:
     def salir(self):
         # Cierra la ventana principal
         self.master.destroy()
-
 
 class Ventana2:
 
@@ -184,7 +182,6 @@ class Ventana2:
         # Muestra la ventana principal
         self.ventana_principal.deiconify()
 
-
 class Ventana3:
     def __init__(self, master, filas, columnas, gamemode_1, gamemode_2, player_selection):
         self.player_selection = player_selection
@@ -203,6 +200,12 @@ class Ventana3:
         self.is_computer_playing = False
         self.master = master
         self.gamemode_1 = gamemode_1
+        self.gamemode_2 = gamemode_2
+        self.filas=filas
+        self.columnas=columna
+        self.valor_sos_creados_1 = None
+        self.valor_sos_creados_2 = None
+        self.resultado = None
 
         if gamemode_2 == 'Simple':
             self.master.title("Tablero modo simple")
@@ -306,8 +309,11 @@ class Ventana3:
         self.right_letter = tk.StringVar()
         self.right_sos_created_label = self.create_player_frame(self.right_frame, titulo,
                                                                 self.right_letter, 'Player' in self.right_name)
-        self.boton_nuevo_juego = tk.Button(self.right_frame, text="Nuevo Juego", font=("Courier", 13), bg="#89AC76",)
-        self.boton_nuevo_juego.pack(side=tk.BOTTOM, pady=10)
+        #AGREGUE ESTO AHORA
+        self.boton_guardar_juego = tk.Button(self.right_frame, text="Guardar Juego", font=("Courier", 13), bg="#89AC76",
+                                             command=self.guardar_juego)
+        self.boton_guardar_juego.pack(side=tk.BOTTOM, pady=10)
+
 
     def create_turn_label(self):
         # Crea un frame contenedor en el mismo marco que el tablero
@@ -349,7 +355,7 @@ class Ventana3:
             # obtener la coordenada (x, y) de la esquina superior izquierda de la casilla
             x0 = col * self.cell_size
             y0 = row * self.cell_size
-            # dibujar la letra en la casilla correspondiente
+            # dibujar la letra en la casilla correspondiented
             self.canvas_board.create_text(x0 + self.cell_size / 2, y0 + self.cell_size / 2,
                                           text=letter, fill="black")
             createdSOS = self.check_and_draw_SOS(letter, row, col)
@@ -359,12 +365,23 @@ class Ventana3:
             elif not createdSOS:
                 self.master.board.change_turn()
                 self.update_turn_label()
-                if self.master.board.gamemode_2 == 'General':
-                    self.left_sos_created_label.config(text=f"SOS created: {self.master.board.SOS_created['left']}")
-                    self.right_sos_created_label.config(text=f"SOS created: {self.master.board.SOS_created['right']}")
+            if self.master.board.gamemode_1 == 'P vs PC' and self.master.board.gamemode_2 == 'General':
+                if (self.master.board.turn == 'left' and 'Computer' in self.left_name) or \
+                        (self.master.board.turn == 'right' and 'Computer' in self.right_name):
+                    self.start_computer_turn()  # Iniciar el siguiente turno de la computadora
+
+            if self.master.board.gamemode_2 == 'General':
+                self.left_sos_created_label.config(text=f"SOS created: {self.master.board.SOS_created['left']}")
+                self.right_sos_created_label.config(text=f"SOS created: {self.master.board.SOS_created['right']}")
+
+                self.valor_sos_creados_1 = str(self.master.board.SOS_created['left'])
+                self.valor_sos_creados_2 = str(self.master.board.SOS_created['right'])
+
         else:
             # La casilla ya está ocupada
             tk.messagebox.showerror("Error", "Esta casilla ya está ocupada")
+
+        self.update_turn_label()
 
     def check_and_draw_SOS(self, letter, x, y):
         createdSOS, SOS = self.master.board.check_SOS(letter, x, y)
@@ -374,6 +391,8 @@ class Ventana3:
                 x2, y2 = s[1][1] * self.cell_size + self.cell_size / 2, s[1][0] * self.cell_size + self.cell_size / 2
                 color = 'Blue' if self.master.board.turn == 'left' else 'Red'
                 self.canvas_board.create_line(x1, y1, x2, y2, fill=color)
+            self.update_turn_label()  # Agregar esta línea para actualizar el turn_label
+
         return createdSOS
 
     def mostrarGanador(self):
@@ -389,12 +408,15 @@ class Ventana3:
             elif resultado == "Draw":
                 messagebox.showinfo("Empate", "¡El juego ha terminado en empate!")
 
+            self.resultado = str(resultado)
+
     def start_computer_turn(self):
         play = self.computer.play_turn(self.master.board.cells)
         letter = play[0]
         row, col = play[1][0], play[1][1]
         self.add_letter_board(letter, row, col)
         self.is_computer_playing = False
+        self.update_turn_label()  # Actualizar el turn_label después de establecer is_computer_playing en False
 
     def start_computer_game(self):
         if not self.isGameOver:
@@ -403,14 +425,42 @@ class Ventana3:
             letter = play[0]
             row, col = play[1][0], play[1][1]
             self.add_letter_board(letter, row, col)
-            ventana_principal.after(1000, self.start_computer_game)
+
+            # Verificar si el juego ha terminado
+            if self.isGameOver:
+                return
+
+            # Llamar a start_computer_game después de un cierto tiempo
+            self.master.after(100, self.start_computer_game)
+
+    def guardar_juego(self):
+        filename = "movimientos.txt"  # Nombre del archivo de destino
+        messagebox.showinfo("Atención", "Se grabarán los movimientos en el archivo 'movimientos.txt'.")
+        result = self.master.board.record_game(filename)
+
+        if result == "Game recorded successfully.":
+            messagebox.showinfo("Guardado", "El juego se ha guardado exitosamente en el archivo 'movimientos.txt'.")
+        else:
+            messagebox.showerror("Error", "Error al guardar el juego: " + result)
+
+        # Escribir las variables en el archivo existente
+        archivo = open("movimientos.txt", "a+")
+        archivo.write("\nSOS Izquierdos: "+self.valor_sos_creados_1 + "\n")
+        archivo.write("SOS Derechos: "+self.valor_sos_creados_2 + "\n\n")
+
+        if self.resultado == "left":
+            archivo.write("El ganador es: " + self.left_name)
+        if self.resultado == "right":
+            archivo.write("El ganador es: " + self.right_name)
+        elif self.resultado == "Draw":
+            archivo.write("El resultado del juego es empate")
+        archivo.close()
 
     def volver(self):
         # Cierra la ventana actual
         self.master.destroy()
         # Muestra la ventana anterior
         self.master.master.deiconify()
-
 
 # Crea la ventana principal
 ventana_principal = tk.Tk()
