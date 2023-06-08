@@ -19,7 +19,7 @@ class Computer:
 
     @staticmethod
     def copy_cells(cells):
-        copy_cells = [[Cell() for _ in range(len(cells))] for _ in range(len(cells[0]))]
+        copy_cells = [[Cell() for i in range(len(cells))] for j in range(len(cells[0]))]
         for i in range(len(cells)):
             for j in range(len(cells[0])):
                 copy_cells[i][j].letter = cells[i][j].letter
@@ -31,7 +31,6 @@ class Computer:
             return random.choice(candidate_plays)
 
         empty_cells = Computer.get_empty_cells(cells)
-        candidate_plays = []
 
         for pos in empty_cells:
             for letter in ['S', 'O']:
@@ -44,10 +43,10 @@ class Computer:
         if len(candidate_plays) > 0:
             return random.choice(candidate_plays)
 
-        if len(empty_cells) > 0:
-            return random.choice(empty_cells)
-
-        return None
+        for pos in empty_cells:
+            for letter in ['S', 'O']:
+                candidate_plays.append((letter, pos))
+        return random.choice(candidate_plays)
 
     def check_possible_SOS(self, cells):
         empty_cells = Computer.get_empty_cells(cells)
