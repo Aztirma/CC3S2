@@ -26,6 +26,8 @@ class Board:
             self.cells = [[Cell() for i in range(size)] for j in range(size)]
         self.turn = players[0]
         self.SOS_created = {players[0]: 0, players[1]: 0}
+        #SPRINT4
+        self.moves = []  # Lista para almacenar los movimientos del juego
 
     def start_game(self):
         if self.gamemode_1 is not None and self.gamemode_2 is not None:
@@ -38,10 +40,14 @@ class Board:
         self.turn = players[0] if self.turn == players[1] else players[1]
 
     def add_letter(self, letter, pos_x, pos_y):
-        if self.cells[pos_x][pos_y].letter == letters[0]:
-            self.cells[pos_x][pos_y].add_letter(letter)
-            return True
-        return False
+        if not self.cells[pos_x][pos_y].is_empty():
+            print("Invalid move. Cell already contains a letter:", self.cells[pos_x][pos_y].letter)
+            return False
+
+        self.cells[pos_x][pos_y].add_letter(letter)
+        move_info = 'Turno: {} - Letra: {} - Fila: {} - Columna: {}'.format(self.turn, letter, pos_x, pos_y)
+        self.moves.append(move_info)
+        return True
 
     def check_SOS(self, letter, x, y):
         SOS = []
@@ -96,3 +102,44 @@ class Board:
             for j in range(self.size):
                 print(self.cells[i][j].letter, ' ', end='')
             print()
+
+    def record_game(self, filename):
+        if self.start_game() != "Game started":
+            return "Cannot record game. Game has not started."
+        if not self.moves:
+            return "No moves to record."
+
+        sos_created = set()  # Utilizamos un conjunto para evitar duplicados
+
+        try:
+            with open(filename, 'w') as file:
+                file.write("Gamemode 1: {}\n".format(self.gamemode_1))
+                file.write("Gamemode 2: {}\n".format(self.gamemode_2))
+                file.write("Tamaño del tablero: {}\n".format(self.size)+"\n")
+                for move in self.moves:
+                    info = move.split(" - ")
+                    if len(info) != 4:
+                        return "Invalid move format."
+
+                    pos_x = int(info[2].split(":")[1].strip())
+                    pos_y = int(info[3].split(":")[1].strip())
+                    letter = info[1].split(":")[1].strip()
+
+                    if letter == 'S':
+                        sos_result = self.check_SOS(letter, pos_x, pos_y)
+                        if sos_result[0]:
+                            for sos in sos_result[1]:
+                                sos_created.add(
+                                    tuple(sorted(sos)))  # Convertimos a una tupla ordenada para evitar duplicados
+
+                    file.write(move + '\n')
+
+                # Escribir los SOS creados en el archivo de texto
+                if sos_created:
+                    file.write("\nSOS created:\n")
+                    for sos in sos_created:
+                        file.write("SOS: {}\n".format(sos))
+
+            return "Game recorded successfully."
+        except IOError:
+            return "Error occurred while recording the game."
