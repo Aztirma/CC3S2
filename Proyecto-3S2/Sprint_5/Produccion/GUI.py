@@ -202,7 +202,7 @@ class Ventana3:
         self.gamemode_1 = gamemode_1
         self.gamemode_2 = gamemode_2
         self.filas=filas
-        self.columnas=columna
+        self.columnas=columnas
         self.valor_sos_creados_1 = None
         self.valor_sos_creados_2 = None
         self.resultado = None
