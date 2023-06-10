@@ -38,15 +38,12 @@ class Computer:
                 if len(self.check_possible_SOS(copy_cells)) == 0:
                     candidate_plays.append((letter, pos))
 
-        if len(candidate_plays) > 0:
-            return random.choice(candidate_plays)
-
         # Verificar si hay jugadas candidatas disponibles
         if candidate_plays:
             return random.choice(candidate_plays)
         else:
             # No hay jugadas candidatas disponibles, realizar alguna acción alternativa
-            return None  # O devuelve un valor adecuado en tu caso
+            return ()  # Devolver una tupla vacía en lugar de None
 
     def check_possible_SOS(self, cells):
         empty_cells = Computer.get_empty_cells(cells)
