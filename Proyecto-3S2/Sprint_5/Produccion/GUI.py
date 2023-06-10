@@ -445,8 +445,8 @@ class Ventana3:
 
         # Escribir las variables en el archivo existente
         archivo = open("movimientos.txt", "a+")
-        archivo.write("\nSOS Izquierdos: "+self.valor_sos_creados_1 + "\n")
-        archivo.write("SOS Derechos: "+self.valor_sos_creados_2 + "\n\n")
+        archivo.write("\nSOS Izquierdos: " + str(self.valor_sos_creados_1) + "\n")
+        archivo.write("SOS Derechos: "+str(self.valor_sos_creados_2) + "\n\n")
 
         if self.resultado == "left":
             archivo.write("El ganador es: " + self.left_name)
