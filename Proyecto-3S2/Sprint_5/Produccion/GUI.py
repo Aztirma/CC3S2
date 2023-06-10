@@ -412,6 +412,10 @@ class Ventana3:
 
     def start_computer_turn(self):
         play = self.computer.play_turn(self.master.board.cells)
+
+        if not play:  # Verificar si la tupla está vacía
+            return  # Salir de la función sin hacer nada adicional
+
         letter = play[0]
         row, col = play[1][0], play[1][1]
         self.add_letter_board(letter, row, col)
