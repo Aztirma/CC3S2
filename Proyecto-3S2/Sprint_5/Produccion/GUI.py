@@ -136,13 +136,10 @@ class Ventana2:
         # Crea el frame para elegir el jugador
         self.frame_player = tk.Frame(self.master, bg="#E6E6FA", pady=10)
         self.frame_player.pack()
-
         # Crea el label para elegir el jugador
         tk.Label(self.frame_player, text="Elige tu jugador:", font=("Courier", 14), bg="#E6E6FA").pack(side=tk.LEFT)
-
         # Crea las variables para el jugador
         self.players = tk.StringVar(value='0')
-
         # Crea los botones de radio para elegir el jugador
         tk.Radiobutton(self.frame_player, text="Blue Player", font=("Courier", 13), bg="#E6E6FA",
                        variable=self.players, value="Blue Player").pack(side=tk.LEFT)
@@ -406,17 +403,14 @@ class Ventana3:
                 if (self.master.board.turn == 'left' and 'Computer' in self.left_name) or \
                         (self.master.board.turn == 'right' and 'Computer' in self.right_name):
                     self.start_computer_turn()  # Iniciar el siguiente turno de la computadora
-
             if self.master.board.gamemode_2 == 'General':
                 self.left_sos_created_label.config(text=f"SOS created: {self.master.board.SOS_created['left']}")
                 self.right_sos_created_label.config(text=f"SOS created: {self.master.board.SOS_created['right']}")
                 self.valor_sos_creados_1 = str(self.master.board.SOS_created['left'])
                 self.valor_sos_creados_2 = str(self.master.board.SOS_created['right'])
-
         else:
             # La casilla ya está ocupada
             tk.messagebox.showerror("Error", "Esta casilla ya está ocupada")
-
         self.update_turn_label()
 
     def check_and_draw_SOS(self, letter, x, y):
@@ -428,7 +422,6 @@ class Ventana3:
                 color = 'Blue' if self.master.board.turn == 'left' else 'Red'
                 self.canvas_board.create_line(x1, y1, x2, y2, fill=color)
             self.update_turn_label()  # Agregar esta línea para actualizar el turn_label
-
         return createdSOS
 
     def mostrarGanador(self):
@@ -443,7 +436,6 @@ class Ventana3:
                 messagebox.showinfo("Ganador", f"¡{self.right_name} ha ganado!")
             elif resultado == "Draw":
                 messagebox.showinfo("Empate", "¡El juego ha terminado en empate!")
-
             self.resultado = str(resultado)
 
     def start_computer_turn(self):
@@ -465,11 +457,9 @@ class Ventana3:
             letter = play[0]
             row, col = play[1][0], play[1][1]
             self.add_letter_board(letter, row, col)
-
             # Verificar si el juego ha terminado
             if self.isGameOver:
                 return
-
             # Llamar a start_computer_game después de un cierto tiempo
             self.master.after(100, self.start_computer_game)
 
