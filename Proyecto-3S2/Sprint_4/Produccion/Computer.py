@@ -1,5 +1,5 @@
 import random
-from Board import *
+from .Board import *
 
 
 class Computer:
