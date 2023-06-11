@@ -3,7 +3,18 @@ from Board import *
 
 
 class Computer:
+    """
+    Clase que representa a la computadora en el juego.
+    """
     def __init__(self, gamemode_1, gamemode_2, size):
+        """
+        Inicializa una instancia de la clase Computer.
+
+        Args:
+            gamemode_1 (str): Modo de juego 1.
+            gamemode_2 (str): Modo de juego 2.
+            size (int): Tamaño del tablero.
+        """
         self.gamemode_1 = gamemode_1
         self.gamemode_2 = gamemode_2
         self.size = size

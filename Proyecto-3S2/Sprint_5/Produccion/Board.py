@@ -6,6 +6,9 @@ sizes = range(3, 17)
 
 
 class Cell:
+    """
+    Representa una celda en el tablero del juego SOS.
+    """
     def __init__(self):
         self.letter = letters[0]
 
@@ -18,7 +21,18 @@ class Cell:
 
 
 class Board:
+    """
+    Representa el tablero del juego SOS.
+    """
     def __init__(self, gamemode_1, gamemode_2, size):
+        """
+        Inicializa una instancia de la clase Board.
+
+        Args:
+        gamemode_1 (str): Modo de juego 1.
+        gamemode_2 (str): Modo de juego 2.
+        size (int): Tamaño del tablero.
+        """
         self.gamemode_1 = gamemode_1 if gamemode_1 in gamemodes_1 else None
         self.gamemode_2 = gamemode_2 if gamemode_2 in gamemodes_2 else None
         self.size = size if size in sizes else None

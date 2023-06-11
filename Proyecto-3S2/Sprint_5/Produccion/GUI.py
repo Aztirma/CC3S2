@@ -5,8 +5,17 @@ from Computer import *
 from tkinter import messagebox
 
 class Ventana1:
+    """
+    Representa la ventana principal del juego SOS.
+    """
 
     def __init__(self, master):
+        """
+        Inicializa una instancia de la clase Ventana1.
+
+        Args:
+        master: Ventana maestra.
+        """
         self.master = master
         self.master.title("S O S")
         self.master.configure(bg="#E6E6FA")
@@ -64,8 +73,19 @@ class Ventana1:
         self.master.destroy()
 
 class Ventana2:
+    """
+    Representa la segunda ventana del juego SOS, donde se configuran los detalles del juego.
+    """
 
     def __init__(self, master, v_principal, gamemode_1):
+        """
+        Inicializa una instancia de la clase Ventana2.
+
+        Args:
+            master: Ventana maestra.
+            v_principal: Ventana principal.
+            gamemode_1: Modo de juego 1.
+        """
         self.master = master
         self.ventana_principal = v_principal
         self.player_selection = 0
@@ -183,7 +203,21 @@ class Ventana2:
         self.ventana_principal.deiconify()
 
 class Ventana3:
+    """
+    Representa la tercera ventana del juego SOS, donde se muestra el tablero y se juega el juego.
+    """
     def __init__(self, master, filas, columnas, gamemode_1, gamemode_2, player_selection):
+        """
+        Inicializa una instancia de la clase Ventana3.
+
+        Args:
+            master: Ventana maestra.
+            filas: Número de filas del tablero.
+            columnas: Número de columnas del tablero.
+            gamemode_1: Modo de juego 1.
+            gamemode_2: Modo de juego 2.
+            player_selection: Selección del jugador.
+        """
         self.player_selection = player_selection
         self.left_letter = tk.IntVar(value=-1)
         self.right_letter = tk.IntVar(value=-1)
@@ -309,7 +343,7 @@ class Ventana3:
         self.right_letter = tk.StringVar()
         self.right_sos_created_label = self.create_player_frame(self.right_frame, titulo,
                                                                 self.right_letter, 'Player' in self.right_name)
-        #AGREGUE ESTO AHORA
+        #Crea el boton guardar_juego
         self.boton_guardar_juego = tk.Button(self.right_frame, text="Guardar Juego", font=("Courier", 13), bg="#89AC76",
                                              command=self.guardar_juego)
         self.boton_guardar_juego.pack(side=tk.BOTTOM, pady=10)
