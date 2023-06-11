@@ -392,13 +392,16 @@ class Ventana3:
             # dibujar la letra en la casilla correspondiented
             self.canvas_board.create_text(x0 + self.cell_size / 2, y0 + self.cell_size / 2,
                                           text=letter, fill="black")
+            # Verificar si se formó una palabra SOS y dibujarla si es el caso
             createdSOS = self.check_and_draw_SOS(letter, row, col)
+            # Verificar si se alcanzó la condición de victoria
             result = self.master.board.checkVictory()
             if result is not None:
                 self.mostrarGanador()
             elif not createdSOS:
                 self.master.board.change_turn()
                 self.update_turn_label()
+            # Verificar si se debe iniciar el turno de la computadora en el modo P vs PC y General
             if self.master.board.gamemode_1 == 'P vs PC' and self.master.board.gamemode_2 == 'General':
                 if (self.master.board.turn == 'left' and 'Computer' in self.left_name) or \
                         (self.master.board.turn == 'right' and 'Computer' in self.right_name):
@@ -407,7 +410,6 @@ class Ventana3:
             if self.master.board.gamemode_2 == 'General':
                 self.left_sos_created_label.config(text=f"SOS created: {self.master.board.SOS_created['left']}")
                 self.right_sos_created_label.config(text=f"SOS created: {self.master.board.SOS_created['right']}")
-
                 self.valor_sos_creados_1 = str(self.master.board.SOS_created['left'])
                 self.valor_sos_creados_2 = str(self.master.board.SOS_created['right'])
 
@@ -483,6 +485,7 @@ class Ventana3:
 
         # Escribir las variables en el archivo existente
         archivo = open("movimientos.txt", "a+")
+        # Guardar información sobre los SOS creados por cada jugador
         archivo.write("\nSOS Izquierdos: " + str(self.valor_sos_creados_1) + "\n")
         archivo.write("SOS Derechos: "+str(self.valor_sos_creados_2) + "\n\n")
 
