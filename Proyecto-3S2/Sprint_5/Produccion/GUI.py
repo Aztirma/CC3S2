@@ -299,6 +299,7 @@ class Ventana3:
             radio_s.configure(state='disabled')
             radio_o.configure(state='disabled')
         # SOS creados
+
         if self.master.board.gamemode_2 == 'General':
             label = tk.Label(frame, text="SOS created: 0", font=("Courier", 15), bg="#E6E6FA")
             label.pack(pady=10)
@@ -376,6 +377,7 @@ class Ventana3:
             if letter is not None:
                 # añadir letra a la casilla correspondiente
                 self.add_letter_board(letter, row, col)
+
                 if (self.master.board.turn == 'left' and 'Computer' in self.left_name) or \
                         (self.master.board.turn == 'right' and 'Computer' in self.right_name):
                     self.is_computer_playing = True
@@ -403,6 +405,7 @@ class Ventana3:
                 if (self.master.board.turn == 'left' and 'Computer' in self.left_name) or \
                         (self.master.board.turn == 'right' and 'Computer' in self.right_name):
                     self.start_computer_turn()  # Iniciar el siguiente turno de la computadora
+
             if self.master.board.gamemode_2 == 'General':
                 self.left_sos_created_label.config(text=f"SOS created: {self.master.board.SOS_created['left']}")
                 self.right_sos_created_label.config(text=f"SOS created: {self.master.board.SOS_created['right']}")
@@ -461,7 +464,7 @@ class Ventana3:
             if self.isGameOver:
                 return
             # Llamar a start_computer_game después de un cierto tiempo
-            self.master.after(100, self.start_computer_game)
+            self.master.after(1000, self.start_computer_game)
 
     def guardar_juego(self):
         filename = "movimientos.txt"  # Nombre del archivo de destino
@@ -476,15 +479,16 @@ class Ventana3:
         # Escribir las variables en el archivo existente
         archivo = open("movimientos.txt", "a+")
         # Guardar información sobre los SOS creados por cada jugador
-        archivo.write("\nSOS Izquierdos: " + str(self.valor_sos_creados_1) + "\n")
-        archivo.write("SOS Derechos: "+str(self.valor_sos_creados_2) + "\n\n")
+        if self.master.board.gamemode_2 == 'General':
+            archivo.write("\nSOS Izquierdos: " + str(self.valor_sos_creados_1) + "\n")
+            archivo.write("SOS Derechos: "+str(self.valor_sos_creados_2) + "\n")
 
         if self.resultado == "left":
-            archivo.write("El ganador es: " + self.left_name)
+            archivo.write("\nEl ganador es: " + self.left_name)
         if self.resultado == "right":
-            archivo.write("El ganador es: " + self.right_name)
+            archivo.write("\nEl ganador es: " + self.right_name)
         elif self.resultado == "Draw":
-            archivo.write("El resultado del juego es empate")
+            archivo.write("\nEl resultado del juego es empate")
         archivo.close()
 
     def volver(self):

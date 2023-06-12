@@ -1,16 +1,16 @@
-Gamemode 1: P vs PC
+Gamemode 1: PC vs PC
 Gamemode 2: General
 Tamaño del tablero: 3
 
-Turno: left - Letra: O - Fila: 0 - Columna: 2
-Turno: right - Letra: S - Fila: 0 - Columna: 0
-Turno: left - Letra: O - Fila: 2 - Columna: 0
+Turno: left - Letra: S - Fila: 1 - Columna: 2
 Turno: right - Letra: O - Fila: 0 - Columna: 1
-Turno: left - Letra: S - Fila: 1 - Columna: 1
-Turno: right - Letra: O - Fila: 1 - Columna: 0
-Turno: left - Letra: S - Fila: 2 - Columna: 1
-Turno: right - Letra: O - Fila: 1 - Columna: 2
-Turno: left - Letra: O - Fila: 2 - Columna: 2
+Turno: left - Letra: O - Fila: 2 - Columna: 0
+Turno: right - Letra: O - Fila: 2 - Columna: 2
+Turno: left - Letra: O - Fila: 2 - Columna: 1
+Turno: right - Letra: S - Fila: 1 - Columna: 1
+Turno: left - Letra: S - Fila: 1 - Columna: 0
+Turno: right - Letra: O - Fila: 0 - Columna: 2
+Turno: left - Letra: O - Fila: 0 - Columna: 0
 
 SOS Izquierdos: 0
 SOS Derechos: 0
