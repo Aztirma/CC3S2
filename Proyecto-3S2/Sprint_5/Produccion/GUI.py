@@ -346,7 +346,6 @@ class Ventana3:
                                              command=self.guardar_juego)
         self.boton_guardar_juego.pack(side=tk.BOTTOM, pady=10)
 
-
     def create_turn_label(self):
         # Crea un frame contenedor en el mismo marco que el tablero
         self.turn_frame = tk.Frame(self.board_frame, bg="#89AC76")
