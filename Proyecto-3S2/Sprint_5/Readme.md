@@ -24,3 +24,4 @@ En este sprint, se realizaron mejoras y cambios en varias partes del proyecto
 **Links:**
 - Demo Sprint 05: https://drive.google.com/drive/folders/1Uqg_zyOr0l8ePMsXLdePr2JvKw1b1x0G?usp=sharing 
 - Documento Sprint 05: https://docs.google.com/document/d/1pXt0pUqrprK0AZgJzzsIt-6ES9N-qg-N-G4x1vWvfjM/edit?usp=sharing
+- Documento Diagrama de clases: https://docs.google.com/document/d/18mklHLAZFESdp8PN5NRD-jSTSrRT2xTbFbhJQqKWqrw/edit?usp=sharing
