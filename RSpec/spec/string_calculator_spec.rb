@@ -1,6 +1,7 @@
 require "string_calculator"
 
 describe StringCalculator do
+
     describe ".add" do
       context "given an empty string" do
         it "returns zero" do
@@ -8,4 +9,5 @@ describe StringCalculator do
         end
       end
     end
-  end
+end
+
