@@ -8,9 +8,7 @@ Este tutorial de RSpec se basará en la implementación de una parte de una *ca
 
 - Crea una calculadora de cadenas simple con un método`int Add(string numbers)`
 - El método puede tomar 0, 1 o 2 números y devolverá su suma. Para una cadena vacía devolverá 0. Por ejemplo, la entrada puede ser "" o "1" o "1,2".
-- Permita que el `Add`
-    
-    método maneje una cantidad desconocida de números.
+- Permita que el `Add`método maneje una cantidad desconocida de números.
     
 
 ## **Configurando RSpec**
@@ -28,16 +26,14 @@ gem "rspec"
 
 A través del terminal de VScode se creó el directorio
 
-![Untitled](RSpec%20Tutorial%205827ddc6b0a848669f37270e11cfa68c/Untitled.png)
+![Untitled.png](Imagenes%2FUntitled.png)
 
 Además que se colocó en el Gemfile lo indicado anteriormente 
 
-![Untitled](RSpec%20Tutorial%205827ddc6b0a848669f37270e11cfa68c/Untitled%201.png)
-
+![Untitled 1.png](Imagenes%2FUntitled%201.png)
 Abrimos el directorio del proyecto en el terminal y escribimos `bundle install --path .bundle`para instalar la última versión de RSpec y todas las dependencias relacionadas. 
 
-![Untitled](RSpec%20Tutorial%205827ddc6b0a848669f37270e11cfa68c/Untitled%202.png)
-
+![Untitled 2.png](Imagenes%2FUntitled%202.png)
 ## **Escribiendo la primera especificación**
 
 Por convención, las pruebas escritas con RSpec se denominan "especificaciones" (abreviatura de "especificaciones") y se almacenan en el `spec`directorio del proyecto. 
@@ -58,17 +54,15 @@ Para ejecutar las especificaciones, se escribio:
 ```markdown
 $ bundle exec rspec
 ```
-
-![Untitled](RSpec%20Tutorial%205827ddc6b0a848669f37270e11cfa68c/Untitled%203.png)
-
+![Untitled 3.png](Imagenes%2FUntitled%203.png)
+ 
 La especificación fallo con el `uninitialized constant StringCalculator`error. Eso es de esperarse, ya que aún no hemos creado esa clase.
 
 ---
 
 Creamos un nuevo directorio llamado`lib`
 
-![Untitled](RSpec%20Tutorial%205827ddc6b0a848669f37270e11cfa68c/Untitled%204.png)
-
+![Untitled 4.png](Imagenes%2FUntitled%204.png) 
 Declaramos `StringCalculator`en `string_calculator.rb`:
 
 ```markdown
@@ -88,23 +82,22 @@ end
 ```
 
 Una vez realizado esto, ahora nuestra prueba pasará.
-
-![Untitled](RSpec%20Tutorial%205827ddc6b0a848669f37270e11cfa68c/Untitled%205.png)
-
+![Untitled 5.png](Imagenes%2FUntitled%205.png)
+ 
 Lo que hemos logrado aquí es que hemos establecido una configuración de trabajo de nuestro proyecto.
 
 Lo más sencillo que puede hacer nuestra calculadora de cadenas es aceptar una cadena vacía, en cuyo caso podríamos decidir que queremos que devuelva un cero. El método que debemos describir primero es `add`.
 
-![Untitled](RSpec%20Tutorial%205827ddc6b0a848669f37270e11cfa68c/Untitled%206.png)
-
+![Untitled 6.png](Imagenes%2FUntitled%206.png)
+ 
 Si ejecutamos nuestra especificación ahora, obtendremos un error de que el método no está definido
 
-![Untitled](RSpec%20Tutorial%205827ddc6b0a848669f37270e11cfa68c/Untitled%207.png)
-
+![Untitled 7.png](Imagenes%2FUntitled%207.png)
+ 
 Escribamos la cantidad mínima de código para que se cumpla esa especificación, si ejecutamos `bundle exec rspec`ahora, la especificación pasa.
 
-![Untitled](RSpec%20Tutorial%205827ddc6b0a848669f37270e11cfa68c/Untitled%208.png)
-
+![Untitled 8.png](Imagenes%2FUntitled%208.png)
+ 
 ## Hacia un código de trabajo
 
 Nuestra siguiente tarea es hacer que la calculadora funcione dado un solo número en una cadena. 
@@ -131,12 +124,12 @@ end
 
 Modificamos las especificaciones, para probar nuevos ejemplos de RSpec.
 
-![Untitled](RSpec%20Tutorial%205827ddc6b0a848669f37270e11cfa68c/Untitled%209.png)
-
+![Untitled 9.png](Imagenes%2FUntitled%209.png)
+ 
 Después de haber ejecutado las especificaciones, se obtendrá lo siguiente 
 
-![Untitled](RSpec%20Tutorial%205827ddc6b0a848669f37270e11cfa68c/Untitled%2010.png)
-
+![Untitled 10.png](Imagenes%2FUntitled%2010.png)
+ 
 De nuevo, nuestro objetivo es hacerlos pasar, implementando lo siguiente 
 
 ```markdown
@@ -155,8 +148,8 @@ end
 
 De esto modo, nuestra prueba pasará 
 
-![Untitled](RSpec%20Tutorial%205827ddc6b0a848669f37270e11cfa68c/Untitled%2011.png)
-
+![Untitled 11.png](Imagenes%2FUntitled%2011.png)
+ 
 Ahora escribamos algunos ejemplos basados en cadenas que contienen números separados por comas. Podría tener sentido introducir un contexto anidado, "dos números":
 
 ```markdown
@@ -183,16 +176,17 @@ end
 
 Implementamos en nuestro proyecto 
 
-![Untitled](RSpec%20Tutorial%205827ddc6b0a848669f37270e11cfa68c/Untitled%2012.png)
-
+![Untitled 12.png](Imagenes%2FUntitled%2012.png)
+ 
 Estas especificaciones fallan, como era de esperar.
 
-![Untitled](RSpec%20Tutorial%205827ddc6b0a848669f37270e11cfa68c/Untitled%2013.png)
-
+![Untitled 13.png](Imagenes%2FUntitled%2013.png)
+ 
 Aquí hay una forma de hacer que se cumplan las especificaciones
 
-![Untitled](RSpec%20Tutorial%205827ddc6b0a848669f37270e11cfa68c/Untitled%2014.png)
-
+![Untitled 14.png](Imagenes%2FUntitled%2014.png)
+ 
 RSpec tiene más de una forma de mostrar su salida. Una alternativa muy popular al formato de puntos predeterminado es el formato de "documentación", para el caso anterior, la salida será
 
-![Untitled](RSpec%20Tutorial%205827ddc6b0a848669f37270e11cfa68c/Untitled%2015.png)
+![Untitled 15.png](Imagenes%2FUntitled%2015.png)
+ 
