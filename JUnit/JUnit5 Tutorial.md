@@ -12,8 +12,7 @@ Status: Not started
 
 **Arquitectura JUnit**
 
-![Untitled](JUnit5%20Tutorial%2051e654dd2d454f139a419ebca25ecc9b/Untitled.png)
-
+![Untitled 0.png](Imagenes%2FUntitled%200.png)
       JUnit Platform: Lanza marcos de prueba en la JVM.
 
 JUnit Jupiter: Combinación de un nuevo modelo de programación para pruebas de escritura y un modelo de extensión para extensiones.
@@ -67,16 +66,16 @@ A continuación se enumeran algunas anotaciones de uso común que se proporciona
 
 | Annotation | Description |
 | --- | --- |
-| https://www.digitalocean.com/community/users/test | Denota un método de prueba |
-| https://www.digitalocean.com/community/users/displayname | Declara un nombre para mostrar personalizado para la clase de prueba o el método de prueba. |
-| https://www.digitalocean.com/community/users/beforeeach | Indica que el método anotado debe ejecutarse antes de cada método de prueba. |
-| https://www.digitalocean.com/community/users/aftereach | Indica que el método anotado debe ejecutarse después de cada método de prueba. |
-| https://www.digitalocean.com/community/users/beforeall | Indica que el método anotado debe ejecutarse antes que todos los métodos de prueba. |
-| https://www.digitalocean.com/community/users/afterall | Indica que el método anotado debe ejecutarse después de todos los métodos de prueba. |
-| https://www.digitalocean.com/community/users/disable | Se utiliza para deshabilitar una clase de prueba o un método de prueba. |
-| https://www.digitalocean.com/community/users/nested | Denota que la clase anotada es una clase de prueba anidada y no estática. |
-| https://www.digitalocean.com/community/users/tag | Declarar etiquetas para filtrar pruebas. |
-| https://www.digitalocean.com/community/users/extendwith | Registrar extensiones personalizadas. |
+| test | Denota un método de prueba |
+| displayname | Declara un nombre para mostrar personalizado para la clase de prueba o el método de prueba. |
+| beforeeach | Indica que el método anotado debe ejecutarse antes de cada método de prueba. |
+| aftereach | Indica que el método anotado debe ejecutarse después de cada método de prueba. |
+| beforeall | Indica que el método anotado debe ejecutarse antes que todos los métodos de prueba. |
+| afterall | Indica que el método anotado debe ejecutarse después de todos los métodos de prueba. |
+| disable | Se utiliza para deshabilitar una clase de prueba o un método de prueba. |
+| nested | Denota que la clase anotada es una clase de prueba anidada y no estática. |
+| tag | Declarar etiquetas para filtrar pruebas. |
+| extendwith | Registrar extensiones personalizadas. |
 
 ```
 package com.journaldev;
@@ -133,7 +132,7 @@ public class JUnit5Sample1Test {
 
 Podemos ejecutar la clase de prueba JUnit
 
-![Untitled](JUnit5%20Tutorial%2051e654dd2d454f139a419ebca25ecc9b/Untitled%201.png)
+![Untitled 00.png](Imagenes%2FUntitled%2000.png) 
 
 **Aserciones de JUnit**
 
