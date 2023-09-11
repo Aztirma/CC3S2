@@ -1,7 +1,5 @@
 # Replicación JUnit5 Tutorial
 
-Status: Not started
-
 A continuación, se llevará a cabo la replicación de un tutorial sobre JUnit, en el cual se presentarán los conceptos básicos de JUnit 5 y sus nuevas funcionalidades. Para este propósito, se utilizará el entorno de desarrollo integrado (IDE) IntelliJ IDEA
 
 En esta actividad, se creó un proyecto denominado 'JUnit' y se configuró el archivo 'pom.xml' al agregar una dependencia para utilizar JUnit 5
