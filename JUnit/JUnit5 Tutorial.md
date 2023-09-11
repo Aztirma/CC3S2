@@ -1,8 +1,5 @@
 # JUnit5 Tutorial
 
-Semana: 2
-Status: Not started
-
 # ****Tutorial JUnit5****
 
 **JUnit**
