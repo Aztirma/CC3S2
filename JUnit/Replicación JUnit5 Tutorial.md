@@ -12,7 +12,7 @@ Se creó una clase llamada `JUnit5Sample1Test` en la cual se utilizan las anotac
 
 A continuación, se proporciona el resultado de la ejecución de las pruebas en esta clase además de una explicación detallada de la misma.
 
-![Untitled](C:\Users\LENOVO\Documents\GitHub\CC3S2\JUnit\Imagenes\Untitled.png)
+ ![Untitled.png](Imagenes%2FUntitled.png)
 
 **Ejecución de Pruebas en la Clase JUnit5Sample1Test**
 
