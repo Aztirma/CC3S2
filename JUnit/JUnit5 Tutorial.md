@@ -64,18 +64,18 @@ Requiere Java 8 o superior en tiempo de ejecución. Pero todavía se puede proba
 
 A continuación se enumeran algunas anotaciones de uso común que se proporcionan en él:
 
-| Annotation | Description |
-| --- | --- |
-| test | Denota un método de prueba |
-| displayname | Declara un nombre para mostrar personalizado para la clase de prueba o el método de prueba. |
-| beforeeach | Indica que el método anotado debe ejecutarse antes de cada método de prueba. |
-| aftereach | Indica que el método anotado debe ejecutarse después de cada método de prueba. |
-| beforeall | Indica que el método anotado debe ejecutarse antes que todos los métodos de prueba. |
-| afterall | Indica que el método anotado debe ejecutarse después de todos los métodos de prueba. |
-| disable | Se utiliza para deshabilitar una clase de prueba o un método de prueba. |
-| nested | Denota que la clase anotada es una clase de prueba anidada y no estática. |
-| tag | Declarar etiquetas para filtrar pruebas. |
-| extendwith | Registrar extensiones personalizadas. |
+| Annotation   | Description |
+|--------------| --- |
+| @test        | Denota un método de prueba |
+| @displayname | Declara un nombre para mostrar personalizado para la clase de prueba o el método de prueba. |
+| @beforeeach  | Indica que el método anotado debe ejecutarse antes de cada método de prueba. |
+| @aftereach   | Indica que el método anotado debe ejecutarse después de cada método de prueba. |
+| @beforeall   | Indica que el método anotado debe ejecutarse antes que todos los métodos de prueba. |
+| @afterall    | Indica que el método anotado debe ejecutarse después de todos los métodos de prueba. |
+| @disable     | Se utiliza para deshabilitar una clase de prueba o un método de prueba. |
+| @nested       | Denota que la clase anotada es una clase de prueba anidada y no estática. |
+| @tag          | Declarar etiquetas para filtrar pruebas. |
+| @extendwith   | Registrar extensiones personalizadas. |
 
 ```
 package com.journaldev;
