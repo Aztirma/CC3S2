@@ -1,7 +1,5 @@
 # RSpec Tutorial
 
-Status: Not started
-
 ## **Conceptos básicos de RSpec**
 
 Este tutorial de RSpec se basará en la implementación de una parte de una *calculadora de cadenas* . El plan es:
