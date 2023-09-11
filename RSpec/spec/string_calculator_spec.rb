@@ -8,6 +8,12 @@ describe StringCalculator do
           expect(StringCalculator.add("")).to eq(0)
         end
       end
+      
+      context "given '10'" do
+        it "returns 10" do
+          expect(StringCalculator.add("10")).to eql(10)
+        end
+      end
     end
 end
 
