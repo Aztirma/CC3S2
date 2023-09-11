@@ -12,7 +12,7 @@ Se creó una clase llamada `JUnit5Sample1Test` en la cual se utilizan las anotac
 
 A continuación, se proporciona el resultado de la ejecución de las pruebas en esta clase además de una explicación detallada de la misma.
 
-![Untitled](C:\Users\LENOVO\Downloads\Replicación JUnit5 Tutorial\Untitled.png)
+![Untitled](C:\Users\LENOVO\Documents\GitHub\CC3S2\JUnit\Imagenes\Untitled.png)
 
 **Ejecución de Pruebas en la Clase JUnit5Sample1Test**
 
@@ -46,28 +46,21 @@ Este método es una prueba unitaria que utiliza el método **`assertEquals()`** 
 3. Caso 3: Comprueba la expresión **`2 + 2`** es igual a 4.
 
 Si todas estas afirmaciones son verdaderas, la prueba se considera exitosa y se obtiene la siguiente salida para este método
-
-![Untitled](![img.png](img.png)
+![Untitled 1.png](Imagenes%2FUntitled%201.png)
 De no ser ser así, se obtiene la siguiente salida para cada caso
 
 Caso 1:
 
 Al no ser las cadenas “ABC” y “ABD” iguales, la prueba falla.
-
-![Untitled](Replicacio%CC%81n%20JUnit5%20Tutorial%201fb254a104f74cd1b0dd459e32f81dd7/Untitled%202.png)
-
+![Untitled 2.png](Imagenes%2FUntitled%202.png)
 Caso 2:
 
 Al comparar “20” y “21” y no ser los números iguales, la prueba falla
-
-![Untitled](Replicacio%CC%81n%20JUnit5%20Tutorial%201fb254a104f74cd1b0dd459e32f81dd7/Untitled%203.png)
-
+![Untitled 3.png](Imagenes%2FUntitled%203.png)
 Caso 3:
 
 Al no ser “2+2” igual a “5”, la prueba falla.
-
-![Untitled](Replicacio%CC%81n%20JUnit5%20Tutorial%201fb254a104f74cd1b0dd459e32f81dd7/Untitled%204.png)
-
+ ![Untitled 4.png](Imagenes%2FUntitled%204.png)
 Método `testAssertFalse()`
 
 Este método es una prueba unitaria que emplea el método `assertFalse()` de JUnit5 para verificar afirmaciones negativas. La prueba evalúa lo siguiente:
@@ -76,22 +69,19 @@ Este método es una prueba unitaria que emplea el método `assertFalse()` de JUn
 2. Caso 2: Comprueba 10 es mayor que 20, con un mensaje de aserción opcional.
 
 Si ambas afirmaciones son falsas, la prueba se considera exitosa y se obtiene la siguiente salida para este método
-
-![Untitled](Replicacio%CC%81n%20JUnit5%20Tutorial%201fb254a104f74cd1b0dd459e32f81dd7/Untitled%205.png)
-
+![Untitled 5.png](Imagenes%2FUntitled%205.png)
 De no ser así, es decir las afirmaciones son verdaderas, se obtiene la siguiente salida para cada caso
 
 Caso 1: 
 
 Para este caso, se modifico la longitud de la cadena para que sea la correcta, es decir, 9. Por tanto la prueba falla.
-
-![Untitled](Replicacio%CC%81n%20JUnit5%20Tutorial%201fb254a104f74cd1b0dd459e32f81dd7/Untitled%206.png)
+![Untitled 6.png](Imagenes%2FUntitled%206.png)
 
 Caso 2:
 
 Para este caso, se coloco que 30 > 20, lo cual es correcto. Por tanto, la prueba falla.
 
-![Untitled](Replicacio%CC%81n%20JUnit5%20Tutorial%201fb254a104f74cd1b0dd459e32f81dd7/Untitled%207.png)
+![Untitled 7.png](Imagenes%2FUntitled%207.png)
 
 Método `testAssertNull()`
 
@@ -102,7 +92,7 @@ Este método es una prueba unitaria que emplea las aserciones `assertNull()` y `
 
 Si ambas aserciones son exitosas, la prueba se considera exitosa y se obtiene la siguiente salida para este método
 
-![Untitled](Replicacio%CC%81n%20JUnit5%20Tutorial%201fb254a104f74cd1b0dd459e32f81dd7/Untitled%208.png)
+![Untitled 8.png](Imagenes%2FUntitled%208.png)
 
 De no ser así, es decir las afirmaciones son verdaderas, se obtiene la siguiente salida para cada caso
 
@@ -110,13 +100,13 @@ Caso 1:
 
 Se modifico`str1` para que sea no nula (`null`), por tanto la prueba no pasa. 
 
-![Untitled](Replicacio%CC%81n%20JUnit5%20Tutorial%201fb254a104f74cd1b0dd459e32f81dd7/Untitled%209.png)
+![Untitled 9.png](Imagenes%2FUntitled%209.png)
 
 Caso 2:
 
 Se modifico `str2` para que sea nula (`null`), por tanto la prueba no pasa.
 
-![Untitled](Replicacio%CC%81n%20JUnit5%20Tutorial%201fb254a104f74cd1b0dd459e32f81dd7/Untitled%2010.png)
+![Untitled 10.png](Imagenes%2FUntitled%2010.png)
 
 **Método `testAssertAll()`**
 
@@ -126,11 +116,11 @@ Si las cadenas **`str1`**, **`str2`**, y **`str3`** son iguales a "abc", "pqr", 
 
 Si las aserciones dentro de **`assertAll()`** son correctas, la prueba se considera exitosa y se obtiene la siguiente salida para este método
 
-![Untitled](Replicacio%CC%81n%20JUnit5%20Tutorial%201fb254a104f74cd1b0dd459e32f81dd7/Untitled%2011.png)
-
+![Untitled 11.png](Imagenes%2FUntitled%2011.png)
+                
 Si alguna aserción dentro de **`assertAll()`** falla, se mostrarán todas las aserciones que fallaron
 
-![Untitled](Replicacio%CC%81n%20JUnit5%20Tutorial%201fb254a104f74cd1b0dd459e32f81dd7/Untitled%2012.png)
+![Untitled 12.png](Imagenes%2FUntitled%2012.png)
 
 - Método `testAssertTrue()`
     
@@ -141,21 +131,21 @@ Si alguna aserción dentro de **`assertAll()`** falla, se mostrarán todas las a
     
     Si ambas aserciones son verdaderas, la prueba se considera exitosa y se obtiene la siguiente salida para este método
     
-    ![Untitled](Replicacio%CC%81n%20JUnit5%20Tutorial%201fb254a104f74cd1b0dd459e32f81dd7/Untitled%2013.png)
-    
+    ![Untitled 13.png](Imagenes%2FUntitled%2013.png)
+  
     De no ser así, es decir las afirmaciones son falsas, se obtiene la siguiente salida para cada caso
     
     Caso 1:
     
     Para este caso, cambiamos la cadena por “LastName”, como esta comienza con “L” y no con “F” como se esta comparando, la aserción es falsa, por tanto la prueba falla. 
     
-    ![Untitled](Replicacio%CC%81n%20JUnit5%20Tutorial%201fb254a104f74cd1b0dd459e32f81dd7/Untitled%2014.png)
+    ![Untitled 14.png](Imagenes%2FUntitled%2014.png)
     
     Caso 2:
     
     Para este caso comprobamos si 30<20, como esta aserción es falsa, la prueba falla 
     
-    ![Untitled](Replicacio%CC%81n%20JUnit5%20Tutorial%201fb254a104f74cd1b0dd459e32f81dd7/Untitled%2015.png)
+    ![Untitled 15.png](Imagenes%2FUntitled%2015.png)
     
     Método `testAssertThrows()`
     
@@ -166,12 +156,12 @@ Si alguna aserción dentro de **`assertAll()`** falla, se mostrarán todas las a
     
     Si el mensaje de la excepción se lanza y coincide con el esperado, la prueba será exitosa
     
-    ![Untitled](Replicacio%CC%81n%20JUnit5%20Tutorial%201fb254a104f74cd1b0dd459e32f81dd7/Untitled%2016.png)
-    
+    ![Untitled 16.png](Imagenes%2FUntitled%2016.png)
+
     De no ser así, la prueba fallará.
-    
-    ![Untitled](Replicacio%CC%81n%20JUnit5%20Tutorial%201fb254a104f74cd1b0dd459e32f81dd7/Untitled%2017.png)
-    
+
+    ![Untitled 17.png](Imagenes%2FUntitled%2017.png)
+     
 
 **Supuestos de JUnit5**
 
@@ -187,16 +177,16 @@ Se creó una clase llamada `JUnit5Sample3Test` en la cual se utilizan las aserci
     
     Al ser la condición booleana verdadera, al ser **`b`**, la prueba continúa.
     
-    ![Untitled](Replicacio%CC%81n%20JUnit5%20Tutorial%201fb254a104f74cd1b0dd459e32f81dd7/Untitled%2018.png)
-    
+    ![Untitled 18.png](Imagenes%2FUntitled%2018.png)
+     
     De lo contrario, se considera exitosa sin ejecutar ninguna afirmación adicional, como este caso que se definió  **`boolean b = 'A' == 'B';`**
-    
-    ![Untitled](Replicacio%CC%81n%20JUnit5%20Tutorial%201fb254a104f74cd1b0dd459e32f81dd7/Untitled%2019.png)
-    
+   
+    ![Untitled 19.png](Imagenes%2FUntitled%2019.png)
+     
     Sin embargo, si modificamos la aserción **`assertEquals("Hello", "Bye")`** en nuestra prueba, esta fallará.
     
-    ![Untitled](Replicacio%CC%81n%20JUnit5%20Tutorial%201fb254a104f74cd1b0dd459e32f81dd7/Untitled%2020.png)
-    
+    ![Untitled 20.png](Imagenes%2FUntitled%2020.png)
+
     Método `testAssumeTrueSaturday()`
     
     Este método es una prueba unitaria que utiliza la aserción **`assumeTrue()`** de JUnit5 para condicionar la ejecución de la prueba en función del día de la semana actual. La prueba realiza lo siguiente:
@@ -210,12 +200,11 @@ Se creó una clase llamada `JUnit5Sample3Test` en la cual se utilizan las aserci
     
     Como se observa en la siguiente imagen, la prueba no continuo debido a que no es Sábado.
     
-    ![Untitled](Replicacio%CC%81n%20JUnit5%20Tutorial%201fb254a104f74cd1b0dd459e32f81dd7/Untitled%2021.png)
-    
+    ![Untitled 21.png](Imagenes%2FUntitled%2021.png)
+- 
     Sin embargo, si modificamos el “6” por el “7”, la prueba continuará, ya que el día actual es Domingo.
     
-    ![Untitled](Replicacio%CC%81n%20JUnit5%20Tutorial%201fb254a104f74cd1b0dd459e32f81dd7/Untitled%2022.png)
-    
+    ![Untitled 22.png](Imagenes%2FUntitled%2022.png)
 
 Método `testAssumeFalse()`
 
@@ -227,11 +216,11 @@ Este método es una prueba unitaria que emplea la aserción `assumeFalse()` de J
 
 Al ser la condición booleana falsa, al ser **`b`**, la prueba continúa.
 
-![Untitled](Replicacio%CC%81n%20JUnit5%20Tutorial%201fb254a104f74cd1b0dd459e32f81dd7/Untitled%2023.png)
+![Untitled 23.png](Imagenes%2FUntitled%2023.png)
 
 De lo contrario, se considera exitosa sin ejecutar ninguna afirmación adicional, como este caso que se definió  **`boolean b = 'B' != 'A';`**
 
-![Untitled](Replicacio%CC%81n%20JUnit5%20Tutorial%201fb254a104f74cd1b0dd459e32f81dd7/Untitled%2024.png)
+![Untitled 24.png](Imagenes%2FUntitled%2024.png)
 
 Método `testAssumeFalseEnvProp()`
 
@@ -243,11 +232,11 @@ Este método es una prueba unitaria que emplea la aserción `assumeFalse()` de J
 
 La prueba continuará solo si la suposición es falsa, es decir, si "env" no es igual a "dev". 
 
-![Untitled](Replicacio%CC%81n%20JUnit5%20Tutorial%201fb254a104f74cd1b0dd459e32f81dd7/Untitled%2025.png)
+![Untitled 25.png](Imagenes%2FUntitled%2025.png)
 
 Si la suposición es verdadera, la prueba se considerará exitosa sin realizar más acciones.
 
-![Untitled](Replicacio%CC%81n%20JUnit5%20Tutorial%201fb254a104f74cd1b0dd459e32f81dd7/Untitled%2026.png)
+![Untitled 26.png](Imagenes%2FUntitled%2026.png)
 
 Método `testAssumingThat()`
 
@@ -260,13 +249,13 @@ Este método es una prueba unitaria que utiliza `assumingThat()` de JUnit 5para 
 
 Las aserciones dentro del bloque condicional se ejecutan solo cuando el entorno es de prueba ("test"), mientras que las aserciones fuera del bloque se ejecutan en cualquier entorno. 
 
-![Untitled](Replicacio%CC%81n%20JUnit5%20Tutorial%201fb254a104f74cd1b0dd459e32f81dd7/Untitled%2027.png)
+![Untitled 27.png](Imagenes%2FUntitled%2027.png)
 
 La prueba falla al cambiar la condición dentro de **`assumingThat`,** para que no se cumpla en el entorno actual .
 
 También la prueba falla si la condición de **`assertEquals`,** como se muestra a continuación 
 
-![Untitled](Replicacio%CC%81n%20JUnit5%20Tutorial%201fb254a104f74cd1b0dd459e32f81dd7/Untitled%2028.png)
+![Untitled 28.png](Imagenes%2FUntitled%2028.png)
 
 **Clases de prueba anidadas JUnit**
 
@@ -276,7 +265,7 @@ Esta clase de prueba anidada utiliza las anotaciones `@BeforeEach` y `@AfterEach
 
 Método `testMethod1()`: Este es un método de prueba que pertenece a la clase anidada `InnerClass`. Se ejecuta como una prueba independiente y realiza alguna lógica de prueba específica.
 
-![Untitled](Replicacio%CC%81n%20JUnit5%20Tutorial%201fb254a104f74cd1b0dd459e32f81dd7/Untitled%2029.png)
+![Untitled 29.png](Imagenes%2FUntitled%2029.png)
 
 Clase de Prueba Anidada InnerMostClass
 
@@ -284,4 +273,4 @@ Esta es otra clase de prueba anidada dentro de `InnerClass`. También utiliza la
 
 Método `testMethod2()`: Este es un método de prueba que pertenece a la clase anidada `InnerMostClass`. Al igual que `testMethod1()`, se ejecuta como una prueba independiente y realiza su propia lógica de prueba
 
-![Untitled](Replicacio%CC%81n%20JUnit5%20Tutorial%201fb254a104f74cd1b0dd459e32f81dd7/Untitled%2030.png)
+![Untitled 30.png](Imagenes%2FUntitled%2030.png)
